@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,29 +10,32 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; line-height: 1.7; cursor: none; }
-  .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s ease; transform: translate(-50%, -50%); }
-  .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.15s ease, opacity 0.3s; transform: translate(-50%, -50%); opacity: 0.5; }
+  body.modal-open { overflow: hidden; }
+  .cursor { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99999; transform: translate(-50%,-50%); }
+  .cursor-ring { width: 32px; height: 32px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; pointer-events: none; z-index: 99998; transform: translate(-50%,-50%); opacity: 0.5; }
   body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9000; opacity: 0.4; }
+  #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; } .reveal-delay-2 { transition-delay: 0.2s; } .reveal-delay-3 { transition-delay: 0.3s; } .reveal-delay-4 { transition-delay: 0.4s; } .reveal-delay-5 { transition-delay: 0.5s; }
   nav { position: fixed; top: 0; left: 0; right: 0; padding: 24px 48px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent); }
   .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--accent); letter-spacing: 0.05em; }
   .nav-links { display: flex; gap: 40px; list-style: none; }
   .nav-links a { color: var(--muted); text-decoration: none; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.3s; }
   .nav-links a:hover { color: var(--accent); }
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 48px 80px; position: relative; overflow: hidden; }
-  .hero-bg-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); }
-  .hero-bg-line:nth-child(1) { left: 25%; }
-  .hero-bg-line:nth-child(2) { left: 50%; }
-  .hero-bg-line:nth-child(3) { left: 75%; }
-  .hero-number { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
-  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(56px, 9vw, 120px); font-weight: 400; line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 48px 80px; position: relative; overflow: hidden; z-index: 1; }
+  .hero-bg-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--border); z-index: 1; }
+  .hero-bg-line:nth-child(1) { left: 25%; } .hero-bg-line:nth-child(2) { left: 50%; } .hero-bg-line:nth-child(3) { left: 75%; }
+  .hero-number { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; position: relative; z-index: 2; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(56px, 9vw, 120px); font-weight: 400; line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; position: relative; z-index: 2; }
   .hero-title em { font-style: italic; color: var(--accent); }
-  .hero-meta { display: flex; gap: 60px; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; }
+  .hero-meta { display: flex; gap: 60px; opacity: 0; animation: fadeUp 0.8s 0.7s forwards; position: relative; z-index: 2; }
   .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
   .hero-meta-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
   .hero-meta-value { font-size: 14px; color: var(--text); }
-  .scroll-indicator { position: absolute; right: 48px; bottom: 80px; display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--muted); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+  .scroll-indicator { position: absolute; right: 48px; bottom: 80px; display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--muted); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0; animation: fadeIn 1s 1.2s forwards; z-index: 2; }
   .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s 1.5s infinite; }
-  section { padding: 120px 48px; border-top: 1px solid var(--border); }
+  section { padding: 120px 48px; border-top: 1px solid var(--border); position: relative; z-index: 1; }
   .section-header { display: flex; align-items: baseline; gap: 24px; margin-bottom: 80px; }
   .section-num { font-size: 11px; color: var(--accent); letter-spacing: 0.2em; }
   .section-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 64px); font-weight: 400; line-height: 1; }
@@ -42,20 +45,54 @@
   .skills-list { display: flex; flex-direction: column; gap: 1px; }
   .skill-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border); transition: padding-left 0.3s; }
   .skill-item:hover { padding-left: 8px; }
-  .skill-name { color: var(--text); }
-  .skill-level { color: var(--accent); font-size: 12px; }
+  .skill-name { color: var(--text); } .skill-level { color: var(--accent); font-size: 12px; }
   .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-  .project-card { background: var(--surface); padding: 40px; position: relative; overflow: hidden; transition: background 0.4s; cursor: none; }
-  .project-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent), transparent); opacity: 0; transition: opacity 0.4s; }
+  .project-card { background: var(--surface); position: relative; overflow: hidden; transition: background 0.4s; cursor: none; }
   .project-card:hover { background: #161616; }
-  .project-card:hover::before { opacity: 0.05; }
-  .project-num { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 40px; display: block; }
-  .project-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 400; margin-bottom: 16px; line-height: 1.2; }
-  .project-desc { color: var(--muted); font-size: 12px; line-height: 1.8; margin-bottom: 32px; }
+  .project-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent), transparent); opacity: 0; transition: opacity 0.4s; pointer-events: none; z-index: 1; }
+  .project-card:hover::before { opacity: 0.04; }
+  .project-card.featured { grid-column: span 2; }
+  .project-img-wrap { overflow: hidden; position: relative; }
+  .project-img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.6s; background: #1a1a1a; }
+  .project-card.featured .project-img { height: 300px; }
+  .project-card:hover .project-img { transform: scale(1.04); }
+  .project-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, var(--surface) 100%); pointer-events: none; }
+  .project-body { padding: 28px 32px 56px; }
+  .project-num { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 12px; display: block; }
+  .project-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; margin-bottom: 12px; line-height: 1.2; }
+  .project-desc { color: var(--muted); font-size: 12px; line-height: 1.8; margin-bottom: 24px; }
   .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .tag { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 4px 10px; opacity: 0.7; }
-  .project-arrow { position: absolute; right: 40px; bottom: 40px; color: var(--muted); font-size: 20px; transition: transform 0.3s, color 0.3s; }
-  .project-card:hover .project-arrow { transform: translate(4px, -4px); color: var(--accent); }
+  .project-arrow { position: absolute; right: 32px; bottom: 28px; color: var(--muted); font-size: 14px; letter-spacing: 0.1em; transition: color 0.3s; z-index: 2; display: flex; align-items: center; gap: 8px; }
+  .project-arrow span { font-size: 18px; transition: transform 0.3s; }
+  .project-card:hover .project-arrow { color: var(--accent); }
+  .project-card:hover .project-arrow span { transform: translate(3px, -3px); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 10000; display: flex; align-items: flex-end; justify-content: flex-end; pointer-events: none; transition: background 0.4s ease; }
+  .modal-overlay.open { background: rgba(0,0,0,0.75); pointer-events: all; }
+  .modal-panel { width: 55%; height: 100vh; background: #0e0e0e; border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); overflow-y: auto; position: relative; display: flex; flex-direction: column; }
+  .modal-overlay.open .modal-panel { transform: translateX(0); }
+  .modal-close { position: absolute; top: 32px; right: 32px; width: 40px; height: 40px; border: 1px solid var(--border); background: none; color: var(--muted); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: none; transition: border-color 0.3s, color 0.3s; z-index: 10; }
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+  .modal-img-wrap { position: relative; width: 100%; }
+  .modal-img { width: 100%; height: 320px; object-fit: cover; display: block; background: #1a1a1a; }
+  .modal-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, #0e0e0e 100%); pointer-events: none; }
+  .modal-body { padding: 40px 48px 64px; flex: 1; }
+  .modal-num { font-size: 10px; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 16px; display: block; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 400; line-height: 1.1; margin-bottom: 8px; }
+  .modal-year { font-size: 11px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 32px; display: block; }
+  .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .modal-section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: block; }
+  .modal-text { font-size: 14px; line-height: 1.9; color: #999; margin-bottom: 36px; }
+  .modal-text strong { color: var(--text); font-weight: 400; }
+  .modal-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 40px; }
+  .modal-meta-item { background: #0e0e0e; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; }
+  .modal-meta-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .modal-meta-value { font-size: 13px; color: var(--text); }
+  .modal-link { display: inline-flex; align-items: center; gap: 10px; color: var(--accent); text-decoration: none; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid var(--accent); padding: 12px 24px; transition: background 0.3s, color 0.3s; margin-right: 12px; cursor: none; }
+  .modal-link:hover { background: var(--accent); color: #0a0a0a; }
+  .modal-screenshots { display: flex; gap: 2px; margin-bottom: 40px; }
+  .modal-screenshot { flex: 1; height: 120px; object-fit: cover; background: #1a1a1a; opacity: 0.7; transition: opacity 0.3s; }
+  .modal-screenshot:hover { opacity: 1; }
   .contact-content { display: flex; justify-content: space-between; align-items: flex-end; }
   .contact-big { font-family: 'Playfair Display', serif; font-size: clamp(40px, 7vw, 96px); font-weight: 400; line-height: 0.9; color: var(--text); }
   .contact-big em { font-style: italic; color: var(--accent); }
@@ -64,23 +101,45 @@
   .contact-link::before { content: ''; width: 0; height: 1px; background: var(--accent); transition: width 0.3s; }
   .contact-link:hover { color: var(--accent); }
   .contact-link:hover::before { width: 24px; }
-  footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; letter-spacing: 0.1em; }
+  footer { padding: 32px 48px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; letter-spacing: 0.1em; position: relative; z-index: 1; }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes scrollPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+  @keyframes scrollPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
 </style>
 </head>
 <body>
 
+<canvas id="particle-canvas"></canvas>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-panel" id="modalPanel">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div class="modal-img-wrap">
+      <img class="modal-img" id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-body">
+      <span class="modal-num" id="modalNum"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <span class="modal-year" id="modalYear"></span>
+      <div class="modal-tags" id="modalTags"></div>
+      <span class="modal-section-label">Overview</span>
+      <div class="modal-text" id="modalOverview"></div>
+      <span class="modal-section-label">Details</span>
+      <div class="modal-meta-grid" id="modalMeta"></div>
+      <div class="modal-screenshots" id="modalScreenshots"></div>
+      <div id="modalLinks"></div>
+    </div>
+  </div>
+</div>
 
 <nav>
   <div class="nav-logo">N.O.Jr.</div>
   <ul class="nav-links">
-    <li><a href="#hakkimda">Hakkımda</a></li>
-    <li><a href="#projeler">Projeler</a></li>
-    <li><a href="#iletisim">İletişim</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
@@ -88,84 +147,117 @@
   <div class="hero-bg-line"></div>
   <div class="hero-bg-line"></div>
   <div class="hero-bg-line"></div>
-  <div class="hero-number">001 — Portfolyo</div>
+  <div class="hero-number">001 — Portfolio</div>
   <h1 class="hero-title">Nevzat<br>Onay <em>Jr.</em></h1>
   <div class="hero-meta">
-    <div class="hero-meta-item">
-      <span class="hero-meta-label">Uzmanlık</span>
-      <span class="hero-meta-value">Web Geliştirici</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="hero-meta-label">Konum</span>
-      <span class="hero-meta-value">Türkiye</span>
-    </div>
-    <div class="hero-meta-item">
-      <span class="hero-meta-label">Durum</span>
-      <span class="hero-meta-value">Yeni projeler için açık</span>
-    </div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Expertise</span><span class="hero-meta-value">Web Developer</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Location</span><span class="hero-meta-value">Turkey</span></div>
+    <div class="hero-meta-item"><span class="hero-meta-label">Status</span><span class="hero-meta-value">Open to new projects</span></div>
   </div>
-  <div class="scroll-indicator">
-    <div class="scroll-line"></div>
-    Scroll
-  </div>
+  <div class="scroll-indicator"><div class="scroll-line"></div>Scroll</div>
 </section>
 
-<section id="hakkimda">
-  <div class="section-header">
+<section id="about">
+  <div class="section-header reveal">
     <span class="section-num">002</span>
-    <h2 class="section-title">Hakkımda</h2>
+    <h2 class="section-title">About</h2>
   </div>
   <div class="about-grid">
-    <div class="about-text">
-      <p>Merhaba, ben <strong>Nevzat Onay Jr.</strong> — dijital deneyimler tasarlayan ve geliştiren bir yaratıcıyım.</p><br>
-      <p>Her proje benim için bir <strong>problem çözme süreci</strong>. Kullanıcı odaklı tasarım ile güçlü teknik altyapıyı bir araya getirerek anlamlı çözümler üretiyorum.</p><br>
-      <p>Yeni teknolojileri takip etmek ve öğrendiklerimi uygulamaya dökmek beni motive ediyor.</p>
+    <div class="about-text reveal reveal-delay-1">
+      <p>Hi, I'm <strong>Nevzat Onay Jr.</strong> — a creative who designs and develops digital experiences.</p><br>
+      <p>Every project is a <strong>problem-solving process</strong> for me. I build meaningful solutions by combining user-centered design with a solid technical foundation.</p><br>
+      <p>Staying on top of new technologies and putting what I learn into practice keeps me motivated.</p>
     </div>
     <div class="skills-list">
-      <div class="skill-item"><span class="skill-name">HTML / CSS</span><span class="skill-level">■■■■■</span></div>
-      <div class="skill-item"><span class="skill-name">JavaScript</span><span class="skill-level">■■■■○</span></div>
-      <div class="skill-item"><span class="skill-name">React</span><span class="skill-level">■■■○○</span></div>
-      <div class="skill-item"><span class="skill-name">UI/UX Tasarım</span><span class="skill-level">■■■■○</span></div>
-      <div class="skill-item"><span class="skill-name">Node.js</span><span class="skill-level">■■■○○</span></div>
+      <div class="skill-item reveal reveal-delay-1"><span class="skill-name">HTML / CSS</span><span class="skill-level">■■■■■</span></div>
+      <div class="skill-item reveal reveal-delay-2"><span class="skill-name">JavaScript</span><span class="skill-level">■■■■○</span></div>
+      <div class="skill-item reveal reveal-delay-3"><span class="skill-name">React</span><span class="skill-level">■■■○○</span></div>
+      <div class="skill-item reveal reveal-delay-4"><span class="skill-name">UI/UX Design</span><span class="skill-level">■■■■○</span></div>
+      <div class="skill-item reveal reveal-delay-5"><span class="skill-name">Node.js</span><span class="skill-level">■■■○○</span></div>
     </div>
   </div>
 </section>
 
-<section id="projeler">
-  <div class="section-header">
+<section id="projects">
+  <div class="section-header reveal">
     <span class="section-num">003</span>
-    <h2 class="section-title">Projeler</h2>
+    <h2 class="section-title">Projects</h2>
   </div>
   <div class="projects-grid">
-    <div class="project-card">
-      <span class="project-num">P — 001</span>
-      <h3 class="project-title">Proje Adı Bir</h3>
-      <p class="project-desc">Projenin kısa açıklaması buraya gelecek.</p>
-      <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span></div>
-      <span class="project-arrow">↗</span>
+
+    <div class="project-card featured reveal reveal-delay-1" onclick="openModal('luminary')">
+      <div class="project-img-wrap">
+        <img class="project-img" src="https://picsum.photos/seed/dashboard/900/400" alt="Luminary Dashboard">
+      </div>
+      <div class="project-body">
+        <span class="project-num">P — 001</span>
+        <h3 class="project-title">Luminary Dashboard</h3>
+        <p class="project-desc">A real-time analytics dashboard for e-commerce businesses with live chart updates.</p>
+        <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Chart.js</span></div>
+      </div>
+      <div class="project-arrow">View Project <span>↗</span></div>
     </div>
-    <div class="project-card">
-      <span class="project-num">P — 002</span>
-      <h3 class="project-title">Proje Adı İki</h3>
-      <p class="project-desc">Projenin kısa açıklaması buraya gelecek.</p>
-      <div class="project-tags"><span class="tag">Python</span><span class="tag">API</span></div>
-      <span class="project-arrow">↗</span>
+
+    <div class="project-card reveal reveal-delay-2" onclick="openModal('trailr')">
+      <div class="project-img-wrap">
+        <img class="project-img" src="https://picsum.photos/seed/mobile/600/400" alt="Trailr">
+      </div>
+      <div class="project-body">
+        <span class="project-num">P — 002</span>
+        <h3 class="project-title">Trailr</h3>
+        <p class="project-desc">A habit-tracking mobile app built to help users build consistent daily routines.</p>
+        <div class="project-tags"><span class="tag">React Native</span><span class="tag">Expo</span></div>
+      </div>
+      <div class="project-arrow">View Project <span>↗</span></div>
     </div>
-    <div class="project-card">
-      <span class="project-num">P — 003</span>
-      <h3 class="project-title">Proje Adı Üç</h3>
-      <p class="project-desc">Projenin kısa açıklaması buraya gelecek.</p>
-      <div class="project-tags"><span class="tag">UI Design</span><span class="tag">Figma</span></div>
-      <span class="project-arrow">↗</span>
+
+    <div class="project-card reveal reveal-delay-3" onclick="openModal('noir')">
+      <div class="project-img-wrap">
+        <img class="project-img" src="https://picsum.photos/seed/branding/600/400" alt="Noir Studio">
+      </div>
+      <div class="project-body">
+        <span class="project-num">P — 003</span>
+        <h3 class="project-title">Noir Studio</h3>
+        <p class="project-desc">Full brand identity design for a boutique creative agency.</p>
+        <div class="project-tags"><span class="tag">Figma</span><span class="tag">Branding</span></div>
+      </div>
+      <div class="project-arrow">View Project <span>↗</span></div>
     </div>
+
+    <div class="project-card reveal reveal-delay-2" onclick="openModal('promptly')">
+      <div class="project-img-wrap">
+        <img class="project-img" src="https://picsum.photos/seed/aitech/600/400" alt="Promptly">
+      </div>
+      <div class="project-body">
+        <span class="project-num">P — 004</span>
+        <h3 class="project-title">Promptly</h3>
+        <p class="project-desc">A web tool that helps non-technical users craft effective AI prompts.</p>
+        <div class="project-tags"><span class="tag">Next.js</span><span class="tag">OpenAI API</span></div>
+      </div>
+      <div class="project-arrow">View Project <span>↗</span></div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-3" onclick="openModal('skye')">
+      <div class="project-img-wrap">
+        <img class="project-img" src="https://picsum.photos/seed/weather/600/400" alt="Skye">
+      </div>
+      <div class="project-body">
+        <span class="project-num">P — 005</span>
+        <h3 class="project-title">Skye</h3>
+        <p class="project-desc">A minimal weather app with hourly forecasts and animated weather states.</p>
+        <div class="project-tags"><span class="tag">JavaScript</span><span class="tag">Weather API</span></div>
+      </div>
+      <div class="project-arrow">View Project <span>↗</span></div>
+    </div>
+
   </div>
 </section>
 
-<section id="iletisim">
+<section id="contact">
   <div class="contact-content">
-    <div class="contact-big">Birlikte<br><em>çalışalım.</em></div>
-    <div class="contact-links">
-      <a href="mailto:nevzat&#64;nevzatonayjr.com" class="contact-link">E-posta</a>
+    <div class="contact-big reveal">Let's work<br><em>together.</em></div>
+    <div class="contact-links reveal reveal-delay-2">
+      <a href="mailto:nevzat&#64;nevzatonayjr.com" class="contact-link">Email</a>
       <a href="#" class="contact-link">LinkedIn</a>
       <a href="#" class="contact-link">GitHub</a>
       <a href="#" class="contact-link">Instagram</a>
@@ -179,22 +271,127 @@
 </footer>
 
 <script>
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
+const projects = {
+  luminary: {
+    num: 'P — 001', title: 'Luminary Dashboard', year: '2024',
+    img: 'https://picsum.photos/seed/dashboard/1200/500',
+    tags: ['React', 'Node.js', 'Chart.js', 'REST API', 'MongoDB'],
+    overview: '<p>Luminary is a real-time analytics platform built for e-commerce businesses that want deep visibility into their store performance. The dashboard aggregates data from multiple sales channels and presents it through clean, interactive charts.</p><br><p><strong>Key features:</strong> live revenue tracking, customer behavior heatmaps, conversion funnel analysis, and one-click PDF report exports.</p>',
+    meta: [{label:'Role',value:'Full Stack Developer'},{label:'Duration',value:'3 months'},{label:'Team',value:'Solo project'},{label:'Status',value:'Live'}],
+    screenshots: ['https://picsum.photos/seed/dash1/400/200','https://picsum.photos/seed/dash2/400/200','https://picsum.photos/seed/dash3/400/200'],
+    links: [{label:'Live Demo',href:'#'},{label:'GitHub',href:'#'}]
+  },
+  trailr: {
+    num: 'P — 002', title: 'Trailr', year: '2024',
+    img: 'https://picsum.photos/seed/mobile/1200/500',
+    tags: ['React Native', 'Expo', 'Firebase', 'UI/UX'],
+    overview: '<p>Trailr is a habit-tracking mobile app designed around one core idea: <strong>consistency over perfection</strong>. Users log daily habits and build streaks — missing a day breaks the streak and creates a gentle push to stay on track.</p><br><p>The app features animated progress rings, custom reminder scheduling, and a weekly review screen.</p>',
+    meta: [{label:'Role',value:'Mobile Developer'},{label:'Duration',value:'2 months'},{label:'Platform',value:'iOS & Android'},{label:'Status',value:'In review'}],
+    screenshots: ['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'],
+    links: [{label:'App Store',href:'#'},{label:'Case Study',href:'#'}]
+  },
+  noir: {
+    num: 'P — 003', title: 'Noir Studio', year: '2023',
+    img: 'https://picsum.photos/seed/branding/1200/500',
+    tags: ['Figma', 'HTML/CSS', 'Branding', 'Typography'],
+    overview: '<p>A complete brand identity system for Noir Studio, a boutique creative agency based in Istanbul. The project covered everything from the initial logo exploration to a fully coded responsive website.</p><br><p>The visual language is built on <strong>contrast and restraint</strong> — heavy black backgrounds, cream typography, and gold accents.</p>',
+    meta: [{label:'Role',value:'Designer & Developer'},{label:'Duration',value:'6 weeks'},{label:'Client',value:'Noir Studio'},{label:'Deliverables',value:'Brand kit + Website'}],
+    screenshots: ['https://picsum.photos/seed/brand1/400/200','https://picsum.photos/seed/brand2/400/200','https://picsum.photos/seed/brand3/400/200'],
+    links: [{label:'Visit Site',href:'#'},{label:'Behance',href:'#'}]
+  },
+  promptly: {
+    num: 'P — 004', title: 'Promptly', year: '2024',
+    img: 'https://picsum.photos/seed/aitech/1200/500',
+    tags: ['Next.js', 'OpenAI API', 'Tailwind', 'Supabase'],
+    overview: '<p>Promptly is a web application that makes writing effective AI prompts accessible to people without a technical background. Users pick a goal, fill in simple fields, and Promptly assembles a well-structured prompt behind the scenes.</p><br><p>The platform includes a <strong>community library</strong> of shared prompts and a live preview panel.</p>',
+    meta: [{label:'Role',value:'Full Stack Developer'},{label:'Duration',value:'5 weeks'},{label:'Users',value:'400+ beta users'},{label:'Status',value:'Beta'}],
+    screenshots: ['https://picsum.photos/seed/ai1/400/200','https://picsum.photos/seed/ai2/400/200','https://picsum.photos/seed/ai3/400/200'],
+    links: [{label:'Try Beta',href:'#'},{label:'GitHub',href:'#'}]
+  },
+  skye: {
+    num: 'P — 005', title: 'Skye', year: '2023',
+    img: 'https://picsum.photos/seed/weather/1200/500',
+    tags: ['JavaScript', 'Weather API', 'CSS Animations', 'PWA'],
+    overview: '<p>Skye is a minimal, fast-loading weather app that prioritises clarity over features. The interface adapts its colour palette to match the current weather condition — deep blues for rain, warm ambers for clear skies.</p><br><p>Built as a <strong>Progressive Web App</strong>, Skye works offline and can be installed on any device.</p>',
+    meta: [{label:'Role',value:'Frontend Developer'},{label:'Duration',value:'3 weeks'},{label:'Type',value:'PWA'},{label:'Status',value:'Live'}],
+    screenshots: ['https://picsum.photos/seed/sky1/400/200','https://picsum.photos/seed/sky2/400/200','https://picsum.photos/seed/sky3/400/200'],
+    links: [{label:'Live App',href:'#'},{label:'GitHub',href:'#'}]
   }
-  animateRing();
+};
+
+function openModal(id) {
+  const p = projects[id];
+  if (!p) return;
+  document.getElementById('modalNum').textContent = p.num;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalYear').textContent = p.year;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalOverview').innerHTML = p.overview;
+  document.getElementById('modalTags').innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  document.getElementById('modalMeta').innerHTML = p.meta.map(m => `<div class="modal-meta-item"><span class="modal-meta-label">${m.label}</span><span class="modal-meta-value">${m.value}</span></div>`).join('');
+  document.getElementById('modalScreenshots').innerHTML = p.screenshots.map(s => `<img class="modal-screenshot" src="${s}" alt="">`).join('');
+  document.getElementById('modalLinks').innerHTML = p.links.map(l => `<a href="${l.href}" class="modal-link">${l.label} ↗</a>`).join('');
+  document.getElementById('modalPanel').scrollTop = 0;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.classList.add('modal-open');
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.classList.remove('modal-open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+const particles = Array.from({length: 80}, () => ({
+  x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+  radius: 0.5 + Math.random() * 1.8, opacity: 0.08 + Math.random() * 0.38,
+  speedX: -0.25 + Math.random() * 0.5, speedY: -0.35 + Math.random() * -0.05,
+  delta: (0.001 + Math.random() * 0.003) * (Math.random() > 0.5 ? 1 : -1),
+  min: 0.05 + Math.random() * 0.1, max: 0.3 + Math.random() * 0.25
+}));
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.speedX; p.y += p.speedY; p.opacity += p.delta;
+    if (p.opacity <= p.min || p.opacity >= p.max) p.delta *= -1;
+    if (p.y < -5) p.y = canvas.height + 5;
+    if (p.x < -5) p.x = canvas.width + 5;
+    if (p.x > canvas.width + 5) p.x = -5;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(200,169,110,${p.opacity})`; ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>
