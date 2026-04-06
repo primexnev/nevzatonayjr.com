@@ -9,83 +9,25 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   html,body { width:100%; height:100%; overflow:hidden; background:#000; }
   body { font-family:'DM Mono',monospace; color:#e8e4dc; cursor:none; }
-
   .cursor { width:8px; height:8px; background:#c8a96e; border-radius:50%; position:fixed; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); transition:width .2s,height .2s,background .2s; }
   .cursor.hover { width:40px; height:40px; background:transparent; border:1px solid #c8a96e; }
   .cursor-ring { width:36px; height:36px; border:1px solid rgba(200,169,110,.3); border-radius:50%; position:fixed; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); }
-
   #three-canvas { position:fixed; inset:0; z-index:0; }
-
-  #figure-wrap {
-    position:fixed;
-    bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:10;
-    pointer-events:none;
-    width:340px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    animation: figFloat 6s ease-in-out infinite;
-  }
-  @keyframes figFloat {
-    0%,100% { transform:translateX(-50%) translateY(0); }
-    50% { transform:translateX(-50%) translateY(-10px); }
-  }
-
-  #figure-svg {
-    width:380px;
-    filter: drop-shadow(0 0 28px rgba(80,90,180,0.28));
-  }
-
-  .orb-glow {
-    animation: orbPulse 3s ease-in-out infinite;
-  }
-  @keyframes orbPulse {
-    0%,100% { opacity:.45; }
-    50% { opacity:.75; }
-  }
-  .orb-core {
-    animation: corePulse 3s ease-in-out infinite;
-  }
-  @keyframes corePulse {
-    0%,100% { opacity:.5; }
-    50% { opacity:.85; }
-  }
-
-  #orb-hotspot {
-    position:fixed;
-    z-index:20;
-    cursor:none;
-    border-radius:50%;
-    pointer-events:all;
-  }
-
+  #orb-hotspot { position:fixed; z-index:10; cursor:none; border-radius:50%; pointer-events:all; }
   nav { position:fixed; top:0; left:0; right:0; padding:28px 52px; display:flex; justify-content:space-between; align-items:center; z-index:50; }
   .nav-logo { font-family:'Playfair Display',serif; font-size:18px; color:#c8a96e; letter-spacing:.08em; }
   .nav-links { display:flex; gap:40px; list-style:none; }
   .nav-links a { color:#333; text-decoration:none; font-size:10px; letter-spacing:.18em; text-transform:uppercase; transition:color .3s; cursor:none; }
   .nav-links a:hover { color:#c8a96e; }
-
   .hero-text { position:fixed; bottom:72px; left:52px; z-index:50; pointer-events:none; }
   .hero-title { font-family:'Playfair Display',serif; font-size:clamp(44px,6vw,92px); font-weight:400; line-height:.88; letter-spacing:-.02em; opacity:0; animation:fadeUp 1s .5s forwards; }
   .hero-title em { font-style:italic; color:#c8a96e; }
   .hero-sub { margin-top:14px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#3a3a3a; opacity:0; animation:fadeUp 1s .8s forwards; }
-
   .hint { position:fixed; bottom:72px; right:52px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#222; z-index:50; pointer-events:none; opacity:0; animation:fadeIn 1s 3s forwards; }
   footer { position:fixed; bottom:28px; left:52px; font-size:10px; letter-spacing:.1em; color:#1e1e1e; z-index:50; pointer-events:none; }
-
   .about-overlay { position:fixed; inset:0; z-index:200; pointer-events:none; opacity:0; transition:opacity .5s,background .5s; display:flex; align-items:stretch; justify-content:center; }
   .about-overlay.open { opacity:1; pointer-events:all; background:rgba(0,0,0,.82); }
-  .about-panel {
-    width:560px; max-width:92vw; background:#0a0a0a;
-    border:1px solid #1a1a1a; border-top:none; border-bottom:none;
-    transform:translateY(-30px); opacity:0;
-    transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .5s;
-    overflow-y:auto; display:flex; flex-direction:column;
-    padding:72px 48px 64px; position:relative;
-  }
+  .about-panel { width:560px; max-width:92vw; background:#0a0a0a; border:1px solid #1a1a1a; border-top:none; border-bottom:none; transform:translateY(-30px); opacity:0; transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .5s; overflow-y:auto; display:flex; flex-direction:column; padding:72px 48px 64px; position:relative; }
   .about-overlay.open .about-panel { transform:translateY(0); opacity:1; }
   .about-close { position:absolute; top:28px; right:32px; background:none; border:1px solid #1e1e1e; color:#444; font-size:14px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:none; transition:border-color .3s,color .3s; font-family:'DM Mono',monospace; }
   .about-close:hover { border-color:#c8a96e; color:#c8a96e; }
@@ -105,7 +47,6 @@
   .contact-item-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#333; display:block; margin-bottom:2px; }
   .contact-item-name { font-size:13px; color:#e8e4dc; display:block; transition:color .3s; }
   .contact-item-arrow { color:#333; font-size:16px; transition:transform .3s, color .3s; }
-
   .detail-overlay { position:fixed; inset:0; z-index:200; pointer-events:none; opacity:0; transition:opacity .5s,background .5s; display:flex; align-items:stretch; justify-content:flex-end; }
   .detail-overlay.open { opacity:1; pointer-events:all; background:rgba(0,0,0,.75); }
   .detail-panel { width:50%; background:#0c0c0c; border-left:1px solid #1a1a1a; transform:translateX(100%); transition:transform .6s cubic-bezier(.16,1,.3,1); overflow-y:auto; display:flex; flex-direction:column; position:relative; }
@@ -134,7 +75,6 @@
   .detail-links { display:flex; gap:10px; flex-wrap:wrap; }
   .detail-link { font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:#c8a96e; border:1px solid #c8a96e; padding:10px 18px; text-decoration:none; transition:background .3s,color .3s; cursor:none; }
   .detail-link:hover { background:#c8a96e; color:#000; }
-
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 </style>
@@ -144,137 +84,6 @@
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="three-canvas"></canvas>
-
-<!-- Mysterious Figure SVG — upper body only, grey tones, emerging from darkness -->
-<div id="figure-wrap">
-  <svg id="figure-svg" viewBox="0 0 340 480" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="bodyGrad" x1="20%" y1="0%" x2="80%" y2="100%">
-        <stop offset="0%" stop-color="#3a3a3a"/>
-        <stop offset="60%" stop-color="#1e1e1e"/>
-        <stop offset="100%" stop-color="#0a0a0a"/>
-      </linearGradient>
-      <linearGradient id="midGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#2e2e2e"/>
-        <stop offset="100%" stop-color="#141414"/>
-      </linearGradient>
-      <linearGradient id="rimL" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#888888" stop-opacity="0.55"/>
-        <stop offset="100%" stop-color="#888888" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="rimR" x1="100%" y1="0%" x2="0%" y2="0%">
-        <stop offset="0%" stop-color="#aaaaaa" stop-opacity="0.3"/>
-        <stop offset="100%" stop-color="#aaaaaa" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="fadeOut" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
-        <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
-        <stop offset="100%" stop-color="#000000" stop-opacity="1"/>
-      </linearGradient>
-      <linearGradient id="hoodGrad" x1="30%" y1="0%" x2="70%" y2="100%">
-        <stop offset="0%" stop-color="#252525"/>
-        <stop offset="100%" stop-color="#080808"/>
-      </linearGradient>
-      <radialGradient id="orbGrad" cx="40%" cy="35%" r="60%">
-        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
-        <stop offset="25%" stop-color="#ccccff" stop-opacity="0.75"/>
-        <stop offset="100%" stop-color="#4455cc" stop-opacity="0.15"/>
-      </radialGradient>
-      <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#aaaaff" stop-opacity="0.55"/>
-        <stop offset="100%" stop-color="#4455cc" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="orbLit" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#555577" stop-opacity="0.5"/>
-        <stop offset="100%" stop-color="#555577" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="faceGrad" cx="45%" cy="40%" r="55%">
-        <stop offset="0%" stop-color="#2a2a2a"/>
-        <stop offset="70%" stop-color="#111111"/>
-        <stop offset="100%" stop-color="#060606"/>
-      </radialGradient>
-      <filter id="softGlow">
-        <feGaussianBlur stdDeviation="4" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-
-    <ellipse cx="170" cy="310" rx="90" ry="60" fill="url(#orbLit)" opacity="0.4"/>
-
-    <path d="M60,480 Q55,420 65,370 Q75,320 90,280 Q105,245 120,225 Q140,208 170,205 Q200,208 220,225 Q235,245 250,280 Q265,320 275,370 Q285,420 280,480 Z"
-      fill="url(#bodyGrad)" stroke="#222" stroke-width="0.5"/>
-    <path d="M140,480 Q138,430 140,380 Q142,340 148,300 Q155,265 162,240 Q166,225 170,220 Q174,225 178,240 Q185,265 192,300 Q198,340 200,380 Q202,430 200,480 Z"
-      fill="#0a0a0a" opacity="0.6"/>
-    <path d="M90,280 Q75,320 65,370 Q58,410 60,460"
-      fill="none" stroke="url(#rimL)" stroke-width="3" stroke-linecap="round"/>
-    <path d="M250,280 Q265,320 275,370 Q282,410 280,460"
-      fill="none" stroke="url(#rimR)" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M115,222 Q95,235 85,258 Q80,275 90,280"
-      fill="none" stroke="#3a3a3a" stroke-width="1.5" opacity="0.7"/>
-    <path d="M225,222 Q245,235 255,258 Q260,275 250,280"
-      fill="none" stroke="#333" stroke-width="1.2" opacity="0.6"/>
-
-    <path d="M108,300 Q96,318 88,338 Q82,352 84,364 Q86,372 96,374 Q106,374 112,364 Q118,350 118,334 Q118,316 112,306 Z"
-      fill="url(#midGrad)" stroke="#1a1a1a" stroke-width="0.5"/>
-    <path d="M84,364 Q80,372 80,380 Q80,387 86,390 Q92,393 98,388 Q104,382 104,374 Q104,368 96,365 Z"
-      fill="#282828"/>
-    <path d="M80,378 Q76,384 77,390" fill="none" stroke="#333" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M82,382 Q79,390 80,396" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
-    <path d="M87,384 Q85,393 87,399" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
-
-    <path d="M232,300 Q244,318 252,338 Q258,352 256,364 Q254,372 244,374 Q234,374 228,364 Q222,350 222,334 Q222,316 228,306 Z"
-      fill="url(#midGrad)" stroke="#1a1a1a" stroke-width="0.5"/>
-    <path d="M256,364 Q260,372 260,380 Q260,387 254,390 Q248,393 242,388 Q236,382 236,374 Q236,368 244,365 Z"
-      fill="#282828"/>
-    <path d="M260,378 Q264,384 263,390" fill="none" stroke="#333" stroke-width="1.2" stroke-linecap="round"/>
-    <path d="M258,382 Q261,390 260,396" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
-    <path d="M253,384 Q255,393 253,399" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
-
-    <path d="M155,168 Q153,182 153,196 Q161,200 170,200 Q179,200 187,196 Q187,182 185,168 Z"
-      fill="#1a1a1a"/>
-
-    <path d="M105,130 Q102,90 110,68 Q122,42 145,30 Q158,22 170,20 Q182,22 195,30 Q218,42 230,68 Q238,90 235,130 Q228,108 218,96 Q205,82 170,80 Q135,82 122,96 Q112,108 105,130 Z"
-      fill="url(#hoodGrad)"/>
-    <path d="M105,130 Q100,150 102,172 Q104,185 110,192 Q125,180 128,165 Q126,148 128,135 Z"
-      fill="#1a1a1a"/>
-    <path d="M235,130 Q240,150 238,172 Q236,185 230,192 Q215,180 212,165 Q214,148 212,135 Z"
-      fill="#181818"/>
-
-    <ellipse cx="170" cy="128" rx="44" ry="50" fill="url(#faceGrad)"/>
-    <path d="M112,100 Q115,88 126,82 Q148,72 170,70 Q192,72 214,82 Q225,88 228,100 Q215,94 170,92 Q125,94 112,100 Z"
-      fill="#050505" opacity="0.9"/>
-
-    <ellipse cx="152" cy="120" rx="10" ry="6" fill="#888899" opacity="0.15" filter="url(#softGlow)"/>
-    <ellipse cx="188" cy="120" rx="10" ry="6" fill="#888899" opacity="0.15" filter="url(#softGlow)"/>
-    <ellipse cx="152" cy="120" rx="5" ry="4" fill="#555566" opacity="0.7"/>
-    <ellipse cx="188" cy="120" rx="5" ry="4" fill="#555566" opacity="0.7"/>
-    <ellipse cx="152" cy="120" rx="2.5" ry="2.5" fill="#111122"/>
-    <ellipse cx="188" cy="120" rx="2.5" ry="2.5" fill="#111122"/>
-    <ellipse cx="150" cy="118" rx="1.5" ry="1" fill="#ccccdd" opacity="0.6"/>
-    <ellipse cx="186" cy="118" rx="1.5" ry="1" fill="#ccccdd" opacity="0.6"/>
-
-    <path d="M126,128 Q128,160 135,178 Q148,192 170,194 Q192,192 205,178 Q212,160 214,128 Q202,136 170,138 Q138,136 126,128 Z"
-      fill="#080808" opacity="0.95"/>
-    <path d="M128,135 Q124,155 124,172" fill="none" stroke="#444" stroke-width="1" opacity="0.4"/>
-    <path d="M212,135 Q216,155 216,172" fill="none" stroke="#3a3a3a" stroke-width="0.8" opacity="0.35"/>
-
-    <ellipse cx="170" cy="200" rx="55" ry="30" fill="#7788aa" opacity="0.06"/>
-
-    <rect x="0" y="330" width="340" height="150" fill="url(#fadeOut)"/>
-
-    <circle class="orb-glow" cx="170" cy="310" r="62" fill="url(#orbGlow)" opacity="0.45"/>
-    <circle cx="170" cy="310" r="46" fill="url(#orbGrad)" opacity="0.14" stroke="#9999cc" stroke-width="0.6"/>
-    <circle cx="170" cy="310" r="40" fill="url(#orbGrad)" opacity="0.2"/>
-    <circle class="orb-core" cx="170" cy="310" r="24" fill="#bbbbd0" opacity="0.5"/>
-    <circle cx="170" cy="310" r="12" fill="#ddddff" opacity="0.75"/>
-    <ellipse cx="158" cy="298" rx="9" ry="5.5" fill="#ffffff" opacity="0.8" transform="rotate(-25,158,298)"/>
-    <ellipse cx="162" cy="302" rx="4" ry="2.5" fill="#ffffff" opacity="0.95" transform="rotate(-25,162,302)"/>
-    <circle cx="170" cy="310" r="46" fill="none" stroke="#9999bb" stroke-width="0.7" opacity="0.35"/>
-    <ellipse cx="170" cy="310" rx="46" ry="12" fill="none" stroke="#8888aa" stroke-width="0.4" opacity="0.25"/>
-    <ellipse cx="170" cy="310" rx="12" ry="46" fill="none" stroke="#8888aa" stroke-width="0.4" opacity="0.25"/>
-  </svg>
-</div>
-
 <div id="orb-hotspot"></div>
 
 <nav>
@@ -291,7 +100,6 @@
 <p class="hint">Click a sphere to explore</p>
 <footer>© 2025 nevzatonayjr.com</footer>
 
-<!-- About + Contact Panel -->
 <div class="about-overlay" id="aboutOverlay" onclick="closeAboutIfBg(event)">
   <div class="about-panel" id="aboutPanel">
     <button class="about-close" onclick="closeAbout()">✕</button>
@@ -333,7 +141,6 @@
   </div>
 </div>
 
-<!-- Project Detail Panel -->
 <div class="detail-overlay" id="detailOverlay" onclick="closeDetailIfBg(event)">
   <div class="detail-panel" id="detailPanel">
     <button class="detail-close" onclick="closeDetail()">✕</button>
@@ -356,61 +163,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const PROJECTS = [
-  {
-    id:0, num:'P — 001', title:'Luminary', year:'2024',
-    texture:'https://picsum.photos/seed/dashboard/256/256',
-    img:'https://picsum.photos/seed/dashboard/900/400',
-    orbitR:2.4, orbitSpeed:0.38, orbitOffset:0, orbitTilt:0.3,
-    tags:['React','Node.js','Chart.js','REST API'],
-    text:'<p>Luminary is a real-time analytics platform for e-commerce businesses. Aggregates data from multiple sales channels into clean, interactive charts.</p><br><p><strong>Key features:</strong> live revenue tracking, customer heatmaps, conversion funnels, and one-click PDF exports.</p>',
-    meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'3 months'},{l:'Team',v:'Solo'},{l:'Status',v:'Live'}],
-    shots:['https://picsum.photos/seed/dash1/400/200','https://picsum.photos/seed/dash2/400/200','https://picsum.photos/seed/dash3/400/200'],
-    links:[{t:'Live Demo',h:'#'},{t:'GitHub',h:'#'}]
-  },
-  {
-    id:1, num:'P — 002', title:'Trailr', year:'2024',
-    texture:'https://picsum.photos/seed/mobile/256/256',
-    img:'https://picsum.photos/seed/mobile/900/400',
-    orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2,
-    tags:['React Native','Expo','Firebase','UI/UX'],
-    text:'<p>Trailr is a habit-tracking mobile app built around one idea: <strong>consistency over perfection</strong>. Build streaks, track habits, review your week.</p><br><p>Animated progress rings, custom reminders, and weekly visualisations.</p>',
-    meta:[{l:'Role',v:'Mobile Dev'},{l:'Duration',v:'2 months'},{l:'Platform',v:'iOS & Android'},{l:'Status',v:'In review'}],
-    shots:['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'],
-    links:[{t:'App Store',h:'#'},{t:'Case Study',h:'#'}]
-  },
-  {
-    id:2, num:'P — 003', title:'Noir Studio', year:'2023',
-    texture:'https://picsum.photos/seed/branding/256/256',
-    img:'https://picsum.photos/seed/branding/900/400',
-    orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5,
-    tags:['Figma','HTML/CSS','Branding','Typography'],
-    text:'<p>Complete brand identity for Noir Studio, a boutique creative agency in Istanbul. Logo, colour system, and a fully coded responsive website.</p><br><p>Visual language built on <strong>contrast and restraint</strong> — black, cream, and gold.</p>',
-    meta:[{l:'Role',v:'Designer & Dev'},{l:'Duration',v:'6 weeks'},{l:'Client',v:'Noir Studio'},{l:'Deliverables',v:'Brand + Site'}],
-    shots:['https://picsum.photos/seed/brand1/400/200','https://picsum.photos/seed/brand2/400/200','https://picsum.photos/seed/brand3/400/200'],
-    links:[{t:'Visit Site',h:'#'},{t:'Behance',h:'#'}]
-  },
-  {
-    id:3, num:'P — 004', title:'Promptly', year:'2024',
-    texture:'https://picsum.photos/seed/aitech/256/256',
-    img:'https://picsum.photos/seed/aitech/900/400',
-    orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4,
-    tags:['Next.js','OpenAI API','Tailwind','Supabase'],
-    text:'<p>Promptly makes writing effective AI prompts accessible to non-technical users. Pick a goal, fill fields, Promptly builds the prompt.</p><br><p>Includes a <strong>community library</strong> and a live AI preview panel.</p>',
-    meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'5 weeks'},{l:'Users',v:'400+ beta'},{l:'Status',v:'Beta'}],
-    shots:['https://picsum.photos/seed/ai1/400/200','https://picsum.photos/seed/ai2/400/200','https://picsum.photos/seed/ai3/400/200'],
-    links:[{t:'Try Beta',h:'#'},{t:'GitHub',h:'#'}]
-  },
-  {
-    id:4, num:'P — 005', title:'Skye', year:'2023',
-    texture:'https://picsum.photos/seed/weather/256/256',
-    img:'https://picsum.photos/seed/weather/900/400',
-    orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15,
-    tags:['JavaScript','Weather API','CSS Animations','PWA'],
-    text:'<p>Skye is a minimal weather PWA that adapts its colour palette to current conditions — deep blues for rain, warm ambers for clear skies.</p><br><p>Works offline, installs on any device. Hourly forecasts and 7-day outlook.</p>',
-    meta:[{l:'Role',v:'Frontend Dev'},{l:'Duration',v:'3 weeks'},{l:'Type',v:'PWA'},{l:'Status',v:'Live'}],
-    shots:['https://picsum.photos/seed/sky1/400/200','https://picsum.photos/seed/sky2/400/200','https://picsum.photos/seed/sky3/400/200'],
-    links:[{t:'Live App',h:'#'},{t:'GitHub',h:'#'}]
-  }
+  { id:0, num:'P — 001', title:'Luminary', year:'2024', texture:'https://picsum.photos/seed/dashboard/256/256', img:'https://picsum.photos/seed/dashboard/900/400', orbitR:2.4, orbitSpeed:0.38, orbitOffset:0, orbitTilt:0.3, tags:['React','Node.js','Chart.js','REST API'], text:'<p>Luminary is a real-time analytics platform for e-commerce businesses. Aggregates data from multiple sales channels into clean, interactive charts.</p><br><p><strong>Key features:</strong> live revenue tracking, customer heatmaps, conversion funnels, and one-click PDF exports.</p>', meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'3 months'},{l:'Team',v:'Solo'},{l:'Status',v:'Live'}], shots:['https://picsum.photos/seed/dash1/400/200','https://picsum.photos/seed/dash2/400/200','https://picsum.photos/seed/dash3/400/200'], links:[{t:'Live Demo',h:'#'},{t:'GitHub',h:'#'}] },
+  { id:1, num:'P — 002', title:'Trailr', year:'2024', texture:'https://picsum.photos/seed/mobile/256/256', img:'https://picsum.photos/seed/mobile/900/400', orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2, tags:['React Native','Expo','Firebase','UI/UX'], text:'<p>Trailr is a habit-tracking mobile app built around one idea: <strong>consistency over perfection</strong>. Build streaks, track habits, review your week.</p><br><p>Animated progress rings, custom reminders, and weekly visualisations.</p>', meta:[{l:'Role',v:'Mobile Dev'},{l:'Duration',v:'2 months'},{l:'Platform',v:'iOS & Android'},{l:'Status',v:'In review'}], shots:['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'], links:[{t:'App Store',h:'#'},{t:'Case Study',h:'#'}] },
+  { id:2, num:'P — 003', title:'Noir Studio', year:'2023', texture:'https://picsum.photos/seed/branding/256/256', img:'https://picsum.photos/seed/branding/900/400', orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5, tags:['Figma','HTML/CSS','Branding','Typography'], text:'<p>Complete brand identity for Noir Studio, a boutique creative agency in Istanbul. Logo, colour system, and a fully coded responsive website.</p><br><p>Visual language built on <strong>contrast and restraint</strong> — black, cream, and gold.</p>', meta:[{l:'Role',v:'Designer & Dev'},{l:'Duration',v:'6 weeks'},{l:'Client',v:'Noir Studio'},{l:'Deliverables',v:'Brand + Site'}], shots:['https://picsum.photos/seed/brand1/400/200','https://picsum.photos/seed/brand2/400/200','https://picsum.photos/seed/brand3/400/200'], links:[{t:'Visit Site',h:'#'},{t:'Behance',h:'#'}] },
+  { id:3, num:'P — 004', title:'Promptly', year:'2024', texture:'https://picsum.photos/seed/aitech/256/256', img:'https://picsum.photos/seed/aitech/900/400', orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4, tags:['Next.js','OpenAI API','Tailwind','Supabase'], text:'<p>Promptly makes writing effective AI prompts accessible to non-technical users. Pick a goal, fill fields, Promptly builds the prompt.</p><br><p>Includes a <strong>community library</strong> and a live AI preview panel.</p>', meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'5 weeks'},{l:'Users',v:'400+ beta'},{l:'Status',v:'Beta'}], shots:['https://picsum.photos/seed/ai1/400/200','https://picsum.photos/seed/ai2/400/200','https://picsum.photos/seed/ai3/400/200'], links:[{t:'Try Beta',h:'#'},{t:'GitHub',h:'#'}] },
+  { id:4, num:'P — 005', title:'Skye', year:'2023', texture:'https://picsum.photos/seed/weather/256/256', img:'https://picsum.photos/seed/weather/900/400', orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15, tags:['JavaScript','Weather API','CSS Animations','PWA'], text:'<p>Skye is a minimal weather PWA that adapts its colour palette to current conditions — deep blues for rain, warm ambers for clear skies.</p><br><p>Works offline, installs on any device. Hourly forecasts and 7-day outlook.</p>', meta:[{l:'Role',v:'Frontend Dev'},{l:'Duration',v:'3 weeks'},{l:'Type',v:'PWA'},{l:'Status',v:'Live'}], shots:['https://picsum.photos/seed/sky1/400/200','https://picsum.photos/seed/sky2/400/200','https://picsum.photos/seed/sky3/400/200'], links:[{t:'Live App',h:'#'},{t:'GitHub',h:'#'}] }
 ];
 
 const canvas = document.getElementById('three-canvas');
@@ -436,10 +193,31 @@ for(let i=0;i<sp.length;i++) sp[i]=(Math.random()-.5)*100;
 sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
 scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.055,transparent:true,opacity:.55})));
 
+// Karakter — Three.js Plane
+const charTex = new THREE.TextureLoader().load('character.png');
+charTex.minFilter = THREE.LinearFilter;
+const charW = 3.4, charH = charW * (1536/1024);
+const charMesh = new THREE.Mesh(
+  new THREE.PlaneGeometry(charW, charH),
+  new THREE.MeshBasicMaterial({map:charTex, transparent:true, depthWrite:false, depthTest:true})
+);
+charMesh.position.set(0, charH/2 - 5.2, 1.5);
+scene.add(charMesh);
+
+function updateOrbHotspot() {
+  const orbPos = new THREE.Vector3(charMesh.position.x, charMesh.position.y - charH * 0.10, charMesh.position.z);
+  orbPos.project(camera);
+  const sx = (orbPos.x + 1) / 2 * innerWidth;
+  const sy = (1 - (orbPos.y + 1) / 2) * innerHeight;
+  const r = charW * 0.20 / 9 * innerHeight;
+  const h = document.getElementById('orb-hotspot');
+  h.style.left = (sx-r)+'px'; h.style.top = (sy-r)+'px';
+  h.style.width = (r*2)+'px'; h.style.height = (r*2)+'px';
+}
+
 const CENTER = new THREE.Vector3(0, -0.6, 0);
 const texLoader = new THREE.TextureLoader();
-const projectGroups = [];
-const projectMeshes = [];
+const projectGroups = [], projectMeshes = [];
 let scaleLerps = PROJECTS.map(()=>1.0);
 
 PROJECTS.forEach((p,i) => {
@@ -460,13 +238,8 @@ PROJECTS.forEach((p,i) => {
 
   const tex = texLoader.load(p.texture);
   const pMesh = new THREE.Mesh(
-    new THREE.SphereGeometry(.32, 48, 48),
-    new THREE.MeshPhysicalMaterial({
-      map:tex, metalness:0.05, roughness:0.12,
-      transmission:0.3, thickness:0.5, reflectivity:0.9,
-      transparent:true, opacity:0.92,
-      emissive:0x111133, emissiveIntensity:0.15,
-    })
+    new THREE.SphereGeometry(.32,48,48),
+    new THREE.MeshPhysicalMaterial({map:tex,metalness:0.05,roughness:0.12,transmission:0.3,thickness:0.5,reflectivity:0.9,transparent:true,opacity:0.92,emissive:0x111133,emissiveIntensity:0.15})
   );
   pMesh.position.x = p.orbitR;
   pMesh.userData.projectId = i;
@@ -497,76 +270,51 @@ PROJECTS.forEach((p,i) => {
   pMesh.add(label);
 });
 
-function positionOrbHotspot(){
-  const svg = document.getElementById('figure-svg');
-  const svgRect = svg.getBoundingClientRect();
-  const orbCX = svgRect.left + svgRect.width * (170/340);
-  const orbCY = svgRect.top + svgRect.height * (310/480);
-  const orbR = svgRect.width * (62/340);
-  const hotspot = document.getElementById('orb-hotspot');
-  hotspot.style.left = (orbCX - orbR) + 'px';
-  hotspot.style.top = (orbCY - orbR) + 'px';
-  hotspot.style.width = (orbR*2) + 'px';
-  hotspot.style.height = (orbR*2) + 'px';
-}
-positionOrbHotspot();
-window.addEventListener('resize', positionOrbHotspot);
-
-document.getElementById('orb-hotspot').addEventListener('click', openAbout);
-document.getElementById('orb-hotspot').addEventListener('mouseenter', () => document.getElementById('cursor').classList.add('hover'));
-document.getElementById('orb-hotspot').addEventListener('mouseleave', () => document.getElementById('cursor').classList.remove('hover'));
-
 const raycaster = new THREE.Raycaster();
 const mouse2 = new THREE.Vector2();
-let hoveredId = -1;
-let isZoomed = false;
-let zoomingTo = null;
-let zoomStart = null;
-let camFrom = new THREE.Vector3();
-let camTo = new THREE.Vector3();
-let lookTarget = new THREE.Vector3();
+let hoveredId=-1, isZoomed=false, zoomingTo=null, zoomStart=null;
+let camFrom=new THREE.Vector3(), camTo=new THREE.Vector3(), lookTarget=new THREE.Vector3();
 
 canvas.addEventListener('mousemove', e => {
-  mouse2.x = (e.clientX/innerWidth)*2-1;
-  mouse2.y = -(e.clientY/innerHeight)*2+1;
+  mouse2.x=(e.clientX/innerWidth)*2-1;
+  mouse2.y=-(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse2,camera);
-  const hits = raycaster.intersectObjects(projectMeshes,false);
-  const curEl = document.getElementById('cursor');
-  if(hits.length>0){ hoveredId = hits[0].object.userData.projectId; curEl.classList.add('hover'); }
-  else { hoveredId = -1; curEl.classList.remove('hover'); }
+  const hits=raycaster.intersectObjects(projectMeshes,false);
+  const curEl=document.getElementById('cursor');
+  if(hits.length>0){hoveredId=hits[0].object.userData.projectId;curEl.classList.add('hover');}
+  else{hoveredId=-1;curEl.classList.remove('hover');}
 });
 
 canvas.addEventListener('click', e => {
-  if(isZoomed || zoomingTo!==null) return;
-  mouse2.x = (e.clientX/innerWidth)*2-1;
-  mouse2.y = -(e.clientY/innerHeight)*2+1;
+  if(isZoomed||zoomingTo!==null) return;
+  mouse2.x=(e.clientX/innerWidth)*2-1;
+  mouse2.y=-(e.clientY/innerHeight)*2+1;
   raycaster.setFromCamera(mouse2,camera);
-  const hits = raycaster.intersectObjects(projectMeshes,false);
+  const hits=raycaster.intersectObjects(projectMeshes,false);
   if(hits.length>0){
-    const pid = hits[0].object.userData.projectId;
-    const wp = new THREE.Vector3();
+    const pid=hits[0].object.userData.projectId;
+    const wp=new THREE.Vector3();
     hits[0].object.getWorldPosition(wp);
     camFrom.copy(camera.position);
-    const dir = wp.clone().sub(camera.position).normalize();
+    const dir=wp.clone().sub(camera.position).normalize();
     camTo.copy(wp).sub(dir.multiplyScalar(1.4));
-    camTo.y = wp.y+0.2;
+    camTo.y=wp.y+0.2;
     lookTarget.copy(wp);
-    zoomingTo = pid;
-    zoomStart = performance.now();
+    zoomingTo=pid; zoomStart=performance.now();
   }
 });
 
 function openDetail(pid){
-  const p = PROJECTS[pid];
-  document.getElementById('dNum').textContent = p.num;
-  document.getElementById('dTitle').textContent = p.title;
-  document.getElementById('dYear').textContent = p.year;
-  document.getElementById('dImg').src = p.img;
-  document.getElementById('dText').innerHTML = p.text;
-  document.getElementById('dTags').innerHTML = p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
-  document.getElementById('dMeta').innerHTML = p.meta.map(m=>`<div class="detail-meta-item"><span class="detail-meta-label">${m.l}</span><span class="detail-meta-value">${m.v}</span></div>`).join('');
-  document.getElementById('dShots').innerHTML = p.shots.map(s=>`<img class="detail-shot" src="${s}" alt="">`).join('');
-  document.getElementById('dLinks').innerHTML = p.links.map(l=>`<a href="${l.h}" class="detail-link">${l.t} ↗</a>`).join('');
+  const p=PROJECTS[pid];
+  document.getElementById('dNum').textContent=p.num;
+  document.getElementById('dTitle').textContent=p.title;
+  document.getElementById('dYear').textContent=p.year;
+  document.getElementById('dImg').src=p.img;
+  document.getElementById('dText').innerHTML=p.text;
+  document.getElementById('dTags').innerHTML=p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('dMeta').innerHTML=p.meta.map(m=>`<div class="detail-meta-item"><span class="detail-meta-label">${m.l}</span><span class="detail-meta-value">${m.v}</span></div>`).join('');
+  document.getElementById('dShots').innerHTML=p.shots.map(s=>`<img class="detail-shot" src="${s}" alt="">`).join('');
+  document.getElementById('dLinks').innerHTML=p.links.map(l=>`<a href="${l.h}" class="detail-link">${l.t} ↗</a>`).join('');
   document.getElementById('detailPanel').scrollTop=0;
   document.getElementById('detailOverlay').classList.add('open');
   isZoomed=true;
@@ -576,81 +324,84 @@ function closeDetail(){
   document.getElementById('detailOverlay').classList.remove('open');
   isZoomed=false;
   camFrom.copy(camera.position);
-  camTo.set(0,0.5,9);
-  lookTarget.set(0,0,0);
-  zoomingTo=-1;
-  zoomStart=performance.now();
+  camTo.set(0,0.5,9); lookTarget.set(0,0,0);
+  zoomingTo=-1; zoomStart=performance.now();
 }
 
-function closeDetailIfBg(e){ if(e.target===document.getElementById('detailOverlay')) closeDetail(); }
-function openAbout(){ document.getElementById('aboutOverlay').classList.add('open'); }
-function closeAbout(){ document.getElementById('aboutOverlay').classList.remove('open'); }
-function closeAboutIfBg(e){ if(e.target===document.getElementById('aboutOverlay')) closeAbout(); }
+function closeDetailIfBg(e){if(e.target===document.getElementById('detailOverlay'))closeDetail();}
+function openAbout(){document.getElementById('aboutOverlay').classList.add('open');}
+function closeAbout(){document.getElementById('aboutOverlay').classList.remove('open');}
+function closeAboutIfBg(e){if(e.target===document.getElementById('aboutOverlay'))closeAbout();}
 
-document.querySelectorAll('.contact-item').forEach(item => {
-  item.addEventListener('mouseenter', () => {
-    item.querySelector('.contact-item-name').style.color = '#c8a96e';
-    item.querySelector('.contact-item-arrow').style.color = '#c8a96e';
-    item.querySelector('.contact-item-arrow').style.transform = 'translate(3px,-3px)';
-    item.querySelector('.contact-icon').style.borderColor = '#c8a96e';
+document.getElementById('orb-hotspot').addEventListener('click',openAbout);
+document.getElementById('orb-hotspot').addEventListener('mouseenter',()=>document.getElementById('cursor').classList.add('hover'));
+document.getElementById('orb-hotspot').addEventListener('mouseleave',()=>document.getElementById('cursor').classList.remove('hover'));
+
+document.querySelectorAll('.contact-item').forEach(item=>{
+  item.addEventListener('mouseenter',()=>{
+    item.querySelector('.contact-item-name').style.color='#c8a96e';
+    item.querySelector('.contact-item-arrow').style.color='#c8a96e';
+    item.querySelector('.contact-item-arrow').style.transform='translate(3px,-3px)';
+    item.querySelector('.contact-icon').style.borderColor='#c8a96e';
   });
-  item.addEventListener('mouseleave', () => {
-    item.querySelector('.contact-item-name').style.color = '#e8e4dc';
-    item.querySelector('.contact-item-arrow').style.color = '#333';
-    item.querySelector('.contact-item-arrow').style.transform = '';
-    item.querySelector('.contact-icon').style.borderColor = '#1e1e1e';
+  item.addEventListener('mouseleave',()=>{
+    item.querySelector('.contact-item-name').style.color='#e8e4dc';
+    item.querySelector('.contact-item-arrow').style.color='#333';
+    item.querySelector('.contact-item-arrow').style.transform='';
+    item.querySelector('.contact-icon').style.borderColor='#1e1e1e';
   });
 });
 
 let mx=0,my=0,tmx=0,tmy=0;
-document.addEventListener('mousemove',e=>{ mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; });
+document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
 
-const clock = new THREE.Clock();
+const clock=new THREE.Clock();
+let floatT=0;
 function animate(){
   requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-  projectGroups.forEach((g,i)=>{ g.rotation.y += PROJECTS[i].orbitSpeed * .008; });
+  const t=clock.getElapsedTime();
+  floatT+=0.008;
+  charMesh.position.y=(charH/2-5.2)+Math.sin(floatT)*0.08;
+  updateOrbHotspot();
+  projectGroups.forEach((g,i)=>{g.rotation.y+=PROJECTS[i].orbitSpeed*.008;});
   projectMeshes.forEach((pm,i)=>{
-    pm.rotation.y += .006+i*.002;
-    pm.children.forEach(c=>{ if(c.userData.isLabel) c.lookAt(camera.position); });
-    const target = hoveredId===i ? 1.25 : 1.0;
-    scaleLerps[i] += (target-scaleLerps[i])*.1;
+    pm.rotation.y+=.006+i*.002;
+    pm.children.forEach(c=>{if(c.userData.isLabel)c.lookAt(camera.position);});
+    const target=hoveredId===i?1.25:1.0;
+    scaleLerps[i]+=(target-scaleLerps[i])*.1;
     pm.scale.setScalar(scaleLerps[i]);
   });
-  orbLight.intensity = 4.5 + Math.sin(t*2)*.8;
-  if(zoomingTo===null && !isZoomed){
-    tmx += (mx*.7-tmx)*.035;
-    tmy += (-my*.45-tmy)*.035;
-    camera.position.x = tmx;
-    camera.position.y = 0.5+tmy;
+  orbLight.intensity=4.5+Math.sin(t*2)*.8;
+  if(zoomingTo===null&&!isZoomed){
+    tmx+=(mx*.7-tmx)*.035; tmy+=(-my*.45-tmy)*.035;
+    camera.position.x=tmx; camera.position.y=0.5+tmy;
     camera.lookAt(0,0,0);
   }
   if(zoomingTo!==null){
-    const dur = zoomingTo>=0 ? 850:700;
-    const raw = Math.min((performance.now()-zoomStart)/dur,1);
-    const ease = raw<.5?2*raw*raw:-1+(4-2*raw)*raw;
+    const dur=zoomingTo>=0?850:700;
+    const raw=Math.min((performance.now()-zoomStart)/dur,1);
+    const ease=raw<.5?2*raw*raw:-1+(4-2*raw)*raw;
     camera.position.lerpVectors(camFrom,camTo,ease);
     camera.lookAt(lookTarget);
-    if(raw>=1){ if(zoomingTo>=0) openDetail(zoomingTo); zoomingTo=null; }
+    if(raw>=1){if(zoomingTo>=0)openDetail(zoomingTo);zoomingTo=null;}
   }
   renderer.render(scene,camera);
 }
 animate();
 
-const curEl = document.getElementById('cursor');
-const ringEl = document.getElementById('cursorRing');
+const curEl=document.getElementById('cursor');
+const ringEl=document.getElementById('cursorRing');
 let cx=0,cy=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{ cx=e.clientX; cy=e.clientY; curEl.style.left=cx+'px'; curEl.style.top=cy+'px'; });
-(function rl(){ rx+=(cx-rx)*.12; ry+=(cy-ry)*.12; ringEl.style.left=rx+'px'; ringEl.style.top=ry+'px'; requestAnimationFrame(rl); })();
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY;curEl.style.left=cx+'px';curEl.style.top=cy+'px';});
+(function rl(){rx+=(cx-rx)*.12;ry+=(cy-ry)*.12;ringEl.style.left=rx+'px';ringEl.style.top=ry+'px';requestAnimationFrame(rl);})();
 
 window.addEventListener('resize',()=>{
   camera.aspect=innerWidth/innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight);
-  positionOrbHotspot();
 });
 
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeDetail(); closeAbout(); } });
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();closeAbout();}});
 </script>
 </body>
 </html>
