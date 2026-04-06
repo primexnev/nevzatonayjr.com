@@ -69,6 +69,14 @@
   .detail-meta-item { background:#0c0c0c; padding:12px 16px; display:flex; flex-direction:column; gap:4px; }
   .detail-meta-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#333; }
   .detail-meta-value { font-size:12px; color:#e8e4dc; }
+  /* Video placeholder */
+  .detail-video-wrap { margin-bottom:28px; }
+  .detail-video-label { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#c8a96e; margin-bottom:10px; display:block; }
+  .detail-video { width:100%; aspect-ratio:16/9; background:#111; display:block; border:1px solid #1e1e1e; position:relative; overflow:hidden; }
+  .detail-video video { width:100%; height:100%; object-fit:cover; display:block; }
+  .detail-video-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#333; font-size:10px; letter-spacing:.15em; text-transform:uppercase; }
+  .detail-video-placeholder svg { width:40px; height:40px; opacity:.3; }
+  /* Screenshots */
   .detail-shots { display:flex; gap:2px; margin-bottom:28px; }
   .detail-shot { flex:1; height:84px; object-fit:cover; background:#111; opacity:.55; transition:opacity .3s; }
   .detail-shot:hover { opacity:1; }
@@ -154,6 +162,16 @@
       <div class="detail-text" id="dText"></div>
       <span class="detail-label">Details</span>
       <div class="detail-meta" id="dMeta"></div>
+      <div class="detail-video-wrap" id="dVideoWrap" style="display:none;">
+        <span class="detail-video-label">Gameplay</span>
+        <div class="detail-video">
+          <video id="dVideo" controls preload="none" style="display:none;"></video>
+          <div class="detail-video-placeholder" id="dVideoPlaceholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+            Video coming soon
+          </div>
+        </div>
+      </div>
       <div class="detail-shots" id="dShots"></div>
       <div class="detail-links" id="dLinks"></div>
     </div>
@@ -163,11 +181,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const PROJECTS = [
-  { id:0, num:'P — 001', title:'Pumpkin Farmer', year:'2025', texture:'Images/Videos/Opening_Image 2.png', img:'Images/Videos/Opening_Image 2.png', orbitR:2.4, orbitSpeed:0.38, orbitOffset:0, orbitTilt:0.3, tags:['Unreal Engine 5.6','Blueprints','Game Design','First-Person'], text:'<p>A first-person farming simulation built in Unreal Engine 5.6 with Blueprints. The player has 5 minutes to plant and harvest as many pumpkins as possible.</p><br><p>Each crop requires a <strong>six-step preparation sequence</strong> before it goes in the ground. Ignore a growing crop too long and it stops growing, then dies.</p><br><p>The design is built around <strong>pipeline tension</strong>: plant one more, or run back to save a failing crop? Simple rules, constant pressure.</p>', meta:[{l:'Role',v:'Game Designer & Dev'},{l:'Engine',v:'Unreal Engine 5.6'},{l:'Type',v:'First-Person Sim'},{l:'Status',v:'In progress'}], shots:['Images/Videos/Tool_table.png','Images/Videos/PumpkinHarvest.png','Images/Videos/Opening_Image 2.png'], links:[{t:'Play Demo',h:'#'},{t:'Video',h:'#'}] },
-  { id:1, num:'P — 002', title:'Trailr', year:'2024', texture:'https://picsum.photos/seed/mobile/256/256', img:'https://picsum.photos/seed/mobile/900/400', orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2, tags:['React Native','Expo','Firebase','UI/UX'], text:'<p>Trailr is a habit-tracking mobile app built around one idea: <strong>consistency over perfection</strong>. Build streaks, track habits, review your week.</p><br><p>Animated progress rings, custom reminders, and weekly visualisations.</p>', meta:[{l:'Role',v:'Mobile Dev'},{l:'Duration',v:'2 months'},{l:'Platform',v:'iOS & Android'},{l:'Status',v:'In review'}], shots:['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'], links:[{t:'App Store',h:'#'},{t:'Case Study',h:'#'}] },
-  { id:2, num:'P — 003', title:'Noir Studio', year:'2023', texture:'https://picsum.photos/seed/branding/256/256', img:'https://picsum.photos/seed/branding/900/400', orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5, tags:['Figma','HTML/CSS','Branding','Typography'], text:'<p>Complete brand identity for Noir Studio, a boutique creative agency in Istanbul. Logo, colour system, and a fully coded responsive website.</p><br><p>Visual language built on <strong>contrast and restraint</strong> — black, cream, and gold.</p>', meta:[{l:'Role',v:'Designer & Dev'},{l:'Duration',v:'6 weeks'},{l:'Client',v:'Noir Studio'},{l:'Deliverables',v:'Brand + Site'}], shots:['https://picsum.photos/seed/brand1/400/200','https://picsum.photos/seed/brand2/400/200','https://picsum.photos/seed/brand3/400/200'], links:[{t:'Visit Site',h:'#'},{t:'Behance',h:'#'}] },
-  { id:3, num:'P — 004', title:'Promptly', year:'2024', texture:'https://picsum.photos/seed/aitech/256/256', img:'https://picsum.photos/seed/aitech/900/400', orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4, tags:['Next.js','OpenAI API','Tailwind','Supabase'], text:'<p>Promptly makes writing effective AI prompts accessible to non-technical users. Pick a goal, fill fields, Promptly builds the prompt.</p><br><p>Includes a <strong>community library</strong> and a live AI preview panel.</p>', meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'5 weeks'},{l:'Users',v:'400+ beta'},{l:'Status',v:'Beta'}], shots:['https://picsum.photos/seed/ai1/400/200','https://picsum.photos/seed/ai2/400/200','https://picsum.photos/seed/ai3/400/200'], links:[{t:'Try Beta',h:'#'},{t:'GitHub',h:'#'}] },
-  { id:4, num:'P — 005', title:'Skye', year:'2023', texture:'https://picsum.photos/seed/weather/256/256', img:'https://picsum.photos/seed/weather/900/400', orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15, tags:['JavaScript','Weather API','CSS Animations','PWA'], text:'<p>Skye is a minimal weather PWA that adapts its colour palette to current conditions — deep blues for rain, warm ambers for clear skies.</p><br><p>Works offline, installs on any device. Hourly forecasts and 7-day outlook.</p>', meta:[{l:'Role',v:'Frontend Dev'},{l:'Duration',v:'3 weeks'},{l:'Type',v:'PWA'},{l:'Status',v:'Live'}], shots:['https://picsum.photos/seed/sky1/400/200','https://picsum.photos/seed/sky2/400/200','https://picsum.photos/seed/sky3/400/200'], links:[{t:'Live App',h:'#'},{t:'GitHub',h:'#'}] }
+  { id:0, num:'P — 001', title:'Pumpkin Farmer', year:'2025',
+    texture:'Images/Videos/Opening_Image%202.png',
+    img:'Images/Videos/Opening_Image%202.png',
+    orbitR:2.4, orbitSpeed:0.38, orbitOffset:0, orbitTilt:0.3,
+    tags:['Unreal Engine 5.6','Blueprints','Game Design','First-Person'],
+    text:'<p>A first-person farming simulation built in Unreal Engine 5.6 with Blueprints. The player has 5 minutes to plant and harvest as many pumpkins as possible.</p><br><p>Each crop requires a <strong>six-step preparation sequence</strong> before it goes in the ground. Ignore a growing crop too long and it stops growing, then dies.</p><br><p>The design is built around <strong>pipeline tension</strong>: plant one more, or run back to save a failing crop? Simple rules, constant pressure.</p>',
+    meta:[{l:'Role',v:'Game Designer & Dev'},{l:'Engine',v:'Unreal Engine 5.6'},{l:'Type',v:'First-Person Sim'},{l:'Status',v:'In progress'}],
+    video: null,
+    shots:['Images/Videos/Tool_table.png','Images/Videos/PumpkinHarvest.png'],
+    links:[{t:'Play Demo',h:'#'},{t:'Video',h:'#'}]
+  },
+  { id:1, num:'P — 002', title:'Trailr', year:'2024', texture:'https://picsum.photos/seed/mobile/256/256', img:'https://picsum.photos/seed/mobile/900/400', orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2, tags:['React Native','Expo','Firebase','UI/UX'], text:'<p>Trailr is a habit-tracking mobile app built around one idea: <strong>consistency over perfection</strong>. Build streaks, track habits, review your week.</p><br><p>Animated progress rings, custom reminders, and weekly visualisations.</p>', meta:[{l:'Role',v:'Mobile Dev'},{l:'Duration',v:'2 months'},{l:'Platform',v:'iOS & Android'},{l:'Status',v:'In review'}], video:null, shots:['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'], links:[{t:'App Store',h:'#'},{t:'Case Study',h:'#'}] },
+  { id:2, num:'P — 003', title:'Noir Studio', year:'2023', texture:'https://picsum.photos/seed/branding/256/256', img:'https://picsum.photos/seed/branding/900/400', orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5, tags:['Figma','HTML/CSS','Branding','Typography'], text:'<p>Complete brand identity for Noir Studio, a boutique creative agency in Istanbul. Logo, colour system, and a fully coded responsive website.</p><br><p>Visual language built on <strong>contrast and restraint</strong> — black, cream, and gold.</p>', meta:[{l:'Role',v:'Designer & Dev'},{l:'Duration',v:'6 weeks'},{l:'Client',v:'Noir Studio'},{l:'Deliverables',v:'Brand + Site'}], video:null, shots:['https://picsum.photos/seed/brand1/400/200','https://picsum.photos/seed/brand2/400/200','https://picsum.photos/seed/brand3/400/200'], links:[{t:'Visit Site',h:'#'},{t:'Behance',h:'#'}] },
+  { id:3, num:'P — 004', title:'Promptly', year:'2024', texture:'https://picsum.photos/seed/aitech/256/256', img:'https://picsum.photos/seed/aitech/900/400', orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4, tags:['Next.js','OpenAI API','Tailwind','Supabase'], text:'<p>Promptly makes writing effective AI prompts accessible to non-technical users. Pick a goal, fill fields, Promptly builds the prompt.</p><br><p>Includes a <strong>community library</strong> and a live AI preview panel.</p>', meta:[{l:'Role',v:'Full Stack Dev'},{l:'Duration',v:'5 weeks'},{l:'Users',v:'400+ beta'},{l:'Status',v:'Beta'}], video:null, shots:['https://picsum.photos/seed/ai1/400/200','https://picsum.photos/seed/ai2/400/200','https://picsum.photos/seed/ai3/400/200'], links:[{t:'Try Beta',h:'#'},{t:'GitHub',h:'#'}] },
+  { id:4, num:'P — 005', title:'Skye', year:'2023', texture:'https://picsum.photos/seed/weather/256/256', img:'https://picsum.photos/seed/weather/900/400', orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15, tags:['JavaScript','Weather API','CSS Animations','PWA'], text:'<p>Skye is a minimal weather PWA that adapts its colour palette to current conditions — deep blues for rain, warm ambers for clear skies.</p><br><p>Works offline, installs on any device. Hourly forecasts and 7-day outlook.</p>', meta:[{l:'Role',v:'Frontend Dev'},{l:'Duration',v:'3 weeks'},{l:'Type',v:'PWA'},{l:'Status',v:'Live'}], video:null, shots:['https://picsum.photos/seed/sky1/400/200','https://picsum.photos/seed/sky2/400/200','https://picsum.photos/seed/sky3/400/200'], links:[{t:'Live App',h:'#'},{t:'GitHub',h:'#'}] }
 ];
 
 const canvas = document.getElementById('three-canvas');
@@ -312,6 +340,24 @@ function openDetail(pid){
   document.getElementById('dText').innerHTML=p.text;
   document.getElementById('dTags').innerHTML=p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
   document.getElementById('dMeta').innerHTML=p.meta.map(m=>`<div class="detail-meta-item"><span class="detail-meta-label">${m.l}</span><span class="detail-meta-value">${m.v}</span></div>`).join('');
+
+  // Video
+  const videoWrap = document.getElementById('dVideoWrap');
+  const videoEl = document.getElementById('dVideo');
+  const videoPlaceholder = document.getElementById('dVideoPlaceholder');
+  if(p.video) {
+    videoWrap.style.display='block';
+    videoEl.src = p.video;
+    videoEl.style.display='block';
+    videoPlaceholder.style.display='none';
+  } else {
+    videoWrap.style.display='block';
+    videoEl.style.display='none';
+    videoEl.src='';
+    videoPlaceholder.style.display='flex';
+  }
+
+  // Screenshots
   document.getElementById('dShots').innerHTML=p.shots.map(s=>`<img class="detail-shot" src="${s}" alt="">`).join('');
   document.getElementById('dLinks').innerHTML=p.links.map(l=>`<a href="${l.h}" class="detail-link">${l.t} ↗</a>`).join('');
   document.getElementById('detailPanel').scrollTop=0;
@@ -321,6 +367,8 @@ function openDetail(pid){
 
 function closeDetail(){
   document.getElementById('detailOverlay').classList.remove('open');
+  document.getElementById('dVideo').pause();
+  document.getElementById('dVideo').src='';
   isZoomed=false;
   camFrom.copy(camera.position);
   camTo.set(0,0.5,9); lookTarget.set(0,0,0);
