@@ -69,14 +69,12 @@
   .detail-meta-item { background:#0c0c0c; padding:12px 16px; display:flex; flex-direction:column; gap:4px; }
   .detail-meta-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:#333; }
   .detail-meta-value { font-size:12px; color:#e8e4dc; }
-  /* Video placeholder */
   .detail-video-wrap { margin-bottom:28px; }
   .detail-video-label { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:#c8a96e; margin-bottom:10px; display:block; }
-  .detail-video { width:100%; aspect-ratio:16/9; background:#111; display:block; border:1px solid #1e1e1e; position:relative; overflow:hidden; }
+  .detail-video { width:100%; aspect-ratio:16/9; background:#111; border:1px solid #1e1e1e; position:relative; overflow:hidden; }
   .detail-video video { width:100%; height:100%; object-fit:cover; display:block; }
-  .detail-video-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#333; font-size:10px; letter-spacing:.15em; text-transform:uppercase; }
+  .detail-video-placeholder { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#333; font-size:10px; letter-spacing:.15em; text-transform:uppercase; position:absolute; inset:0; }
   .detail-video-placeholder svg { width:40px; height:40px; opacity:.3; }
-  /* Screenshots */
   .detail-shots { display:flex; gap:2px; margin-bottom:28px; }
   .detail-shot { flex:1; height:84px; object-fit:cover; background:#111; opacity:.55; transition:opacity .3s; }
   .detail-shot:hover { opacity:1; }
@@ -165,13 +163,14 @@
       <div class="detail-video-wrap" id="dVideoWrap" style="display:none;">
         <span class="detail-video-label">Gameplay</span>
         <div class="detail-video">
-          <video id="dVideo" controls preload="none" style="display:none;"></video>
+          <video id="dVideo" controls preload="none" style="display:none;width:100%;height:100%;"></video>
           <div class="detail-video-placeholder" id="dVideoPlaceholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor"/></svg>
             Video coming soon
           </div>
         </div>
       </div>
+      <span class="detail-label" id="dShotsLabel" style="display:none;">Screenshots</span>
       <div class="detail-shots" id="dShots"></div>
       <div class="detail-links" id="dLinks"></div>
     </div>
@@ -182,14 +181,14 @@
 <script>
 const PROJECTS = [
   { id:0, num:'P — 001', title:'Pumpkin Farmer', year:'2025',
-    texture:'PumpkinFarmer/Images/Videos/Opening_Image2.png',
-    img:'PumpkinFarmer/Images/Videos/Opening_Image2.png',
+    texture:'PumpkinFarmer/ImagesVideos/Opening_Image%202.png',
+    img:'PumpkinFarmer/ImagesVideos/Opening_Image%202.png',
     orbitR:2.4, orbitSpeed:0.38, orbitOffset:0, orbitTilt:0.3,
     tags:['Unreal Engine 5.6','Blueprints','Game Design','First-Person'],
     text:'<p>A first-person farming simulation built in Unreal Engine 5.6 with Blueprints. The player has 5 minutes to plant and harvest as many pumpkins as possible.</p><br><p>Each crop requires a <strong>six-step preparation sequence</strong> before it goes in the ground. Ignore a growing crop too long and it stops growing, then dies.</p><br><p>The design is built around <strong>pipeline tension</strong>: plant one more, or run back to save a failing crop? Simple rules, constant pressure.</p>',
     meta:[{l:'Role',v:'Game Designer & Dev'},{l:'Engine',v:'Unreal Engine 5.6'},{l:'Type',v:'First-Person Sim'},{l:'Status',v:'In progress'}],
-    video: null,
-    shots:['Images/Videos/Tool_table.png','Images/Videos/PumpkinHarvest.png'],
+    video:null,
+    shots:['PumpkinFarmer/ImagesVideos/Tool_table.png','PumpkinFarmer/ImagesVideos/PumpkinHarvest.png'],
     links:[{t:'Play Demo',h:'#'},{t:'Video',h:'#'}]
   },
   { id:1, num:'P — 002', title:'Trailr', year:'2024', texture:'https://picsum.photos/seed/mobile/256/256', img:'https://picsum.photos/seed/mobile/900/400', orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2, tags:['React Native','Expo','Firebase','UI/UX'], text:'<p>Trailr is a habit-tracking mobile app built around one idea: <strong>consistency over perfection</strong>. Build streaks, track habits, review your week.</p><br><p>Animated progress rings, custom reminders, and weekly visualisations.</p>', meta:[{l:'Role',v:'Mobile Dev'},{l:'Duration',v:'2 months'},{l:'Platform',v:'iOS & Android'},{l:'Status',v:'In review'}], video:null, shots:['https://picsum.photos/seed/app1/400/200','https://picsum.photos/seed/app2/400/200','https://picsum.photos/seed/app3/400/200'], links:[{t:'App Store',h:'#'},{t:'Case Study',h:'#'}] },
@@ -340,14 +339,12 @@ function openDetail(pid){
   document.getElementById('dText').innerHTML=p.text;
   document.getElementById('dTags').innerHTML=p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
   document.getElementById('dMeta').innerHTML=p.meta.map(m=>`<div class="detail-meta-item"><span class="detail-meta-label">${m.l}</span><span class="detail-meta-value">${m.v}</span></div>`).join('');
-
-  // Video
-  const videoWrap = document.getElementById('dVideoWrap');
-  const videoEl = document.getElementById('dVideo');
-  const videoPlaceholder = document.getElementById('dVideoPlaceholder');
-  if(p.video) {
+  const videoWrap=document.getElementById('dVideoWrap');
+  const videoEl=document.getElementById('dVideo');
+  const videoPlaceholder=document.getElementById('dVideoPlaceholder');
+  if(p.video){
     videoWrap.style.display='block';
-    videoEl.src = p.video;
+    videoEl.src=p.video;
     videoEl.style.display='block';
     videoPlaceholder.style.display='none';
   } else {
@@ -356,9 +353,15 @@ function openDetail(pid){
     videoEl.src='';
     videoPlaceholder.style.display='flex';
   }
-
-  // Screenshots
-  document.getElementById('dShots').innerHTML=p.shots.map(s=>`<img class="detail-shot" src="${s}" alt="">`).join('');
+  const shotsEl=document.getElementById('dShots');
+  const shotsLabel=document.getElementById('dShotsLabel');
+  if(p.shots && p.shots.length>0){
+    shotsLabel.style.display='block';
+    shotsEl.innerHTML=p.shots.map(s=>`<img class="detail-shot" src="${s}" alt="">`).join('');
+  } else {
+    shotsLabel.style.display='none';
+    shotsEl.innerHTML='';
+  }
   document.getElementById('dLinks').innerHTML=p.links.map(l=>`<a href="${l.h}" class="detail-link">${l.t} ↗</a>`).join('');
   document.getElementById('detailPanel').scrollTop=0;
   document.getElementById('detailOverlay').classList.add('open');
