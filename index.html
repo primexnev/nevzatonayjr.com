@@ -54,7 +54,7 @@
   .detail-close { position:absolute; top:28px; right:36px; background:none; border:1px solid #1e1e1e; color:#444; font-size:15px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:none; transition:border-color .3s,color .3s; z-index:10; font-family:'DM Mono',monospace; }
   .detail-close:hover { border-color:#c8a96e; color:#c8a96e; }
   .detail-img-wrap { position:relative; overflow:hidden; flex-shrink:0; }
-  .detail-img { width:100%; height:360px; object-fit:contain; object-position:center; background:#0c0c0c; background:#111; display:block; }
+  .detail-img { width:100%; height:360px; object-fit:cover; object-position:top; background:#111; display:block; }
   .detail-img-wrap::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,transparent 45%,#0c0c0c 100%); pointer-events:none; }
   .detail-body { padding:30px 40px 56px; flex:1; }
   .detail-num { font-size:10px; color:#c8a96e; letter-spacing:.2em; margin-bottom:10px; display:block; }
@@ -204,7 +204,7 @@ const PROJECTS = [
   video:null,shots:['TFK/ingame1.png','TFK/ingame2.png','TFK/Map.png'],links:[{t:'GitHub',h:'https://github.com/primexnev/TheFallenKnight_New-2'}]},
   { id:2, num:'P — 003', title:'Cargo Tracking', year:'2025',texture:'CargoTracking/ingame1.png',img:'CargoTracking/ingame1.png',orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5,
   tags:['Unity','C#','Dijkstra','Yen\'s Algorithm'],text:'<p>A cargo routing simulation built in Unity for the Canton of Zug. Starting from the main cargo hub, the app calculates the optimal route to delivery points across the region using real road data.</p><br><p>Users can <strong>select which roads are available</strong> for the cargo vehicle and set an estimated arrival time. The system uses <strong>Dijkstra and Yen\'s Algorithm</strong> to find the shortest and alternative routes dynamically.</p>',meta:[{l:'Role',v:'Developer'},{l:'Engine',v:'Unity'},{l:'Algorithms',v:'Dijkstra & Yen\'s'},{l:'Region',v:'Canton of Zug'}],
-  video:null,shots:['CargoTracking/ingame1.png'],links:[{t:'GitHub',h:'#'}]
+  video:'CargoTracking/cargotracker.mp4',shots:['CargoTracking/ingame1.png'],links:[{t:'GitHub',h:'#'}]
 },
 {  id:3, num:'P — 004', title:'3D Mod Museum', year:'2025',
   texture:'3DMod/ingame1.png',
@@ -227,6 +227,17 @@ const PROJECTS = [
   video:null,
   shots:['Space/ingame1.png','Space/ingame2.png','Space/ingame3.png','Space/ingame4.png'],
   links:[{t:'View GDD',h:'#'}]
+}
+,{ id:5, num:'P — 006', title:'Level & World Design', year:'2025',
+  texture:'LWD/gamevideo.mp4',
+  img:'LWD/gamevideo.mp4',
+  orbitR:8.5, orbitSpeed:0.07, orbitOffset:1.0, orbitTilt:0.2,
+  tags:['Level Design','World Building','Game Design','Unity'],
+  text:'<p>Details coming soon.</p>',
+  meta:[{l:'Role',v:'Level Designer'},{l:'Type',v:'Level Design'},{l:'Status',v:'In progress'},{l:'Year',v:'2025'}],
+  video:'LWD/gamevideo.mp4',
+  shots:[],
+  links:[{t:'View Project',h:'#'}]
 }
 ];
 
