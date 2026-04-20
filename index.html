@@ -14,14 +14,13 @@
   .cursor-ring { width:36px; height:36px; border:1px solid rgba(200,169,110,.3); border-radius:50%; position:fixed; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); }
   #three-canvas { position:fixed; inset:0; z-index:0; }
   #orb-hotspot { position:fixed; z-index:10; cursor:none; border-radius:50%; pointer-events:all; }
-  nav { position:fixed; top:0; left:0; right:0; padding:28px 52px; display:flex; justify-content:space-between; align-items:center; z-index:50; }
-  .nav-logo { font-family:'Playfair Display',serif; font-size:18px; color:#c8a96e; letter-spacing:.08em; }
+  nav { position:fixed; top:0; left:0; right:0; padding:28px 52px; display:flex; justify-content:flex-end; align-items:center; z-index:50; }
   .nav-links { display:flex; gap:40px; list-style:none; }
-  .nav-links a { color:#888;  text-decoration:none; font-size:10px; letter-spacing:.18em; text-transform:uppercase; transition:color .3s; cursor:none; }
+  .nav-links a { color:#888; text-decoration:none; font-size:10px; letter-spacing:.18em; text-transform:uppercase; transition:color .3s; cursor:none; }
   .nav-links a:hover { color:#c8a96e; }
-  .hero-text { position:fixed; bottom:72px; left:52px; z-index:50; pointer-events:none; }
-  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(18px,1.8vw,28px); font-weight:400; line-height:.88; letter-spacing:-.02em; opacity:0; animation:fadeUp 1s .5s forwards; }
-  .hero-title em { font-style:italic; color:#c8a96e; }
+  .hero-text { position:fixed; top:22px; left:52px; z-index:50; pointer-events:none; }
+  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(44px,6vw,92px); font-weight:400; line-height:.88; letter-spacing:-.02em; opacity:0; animation:fadeUp 1s .5s forwards; }
+  .hero-title em { font-style:italic; color:#c8a96e; font-family:'Georgia',serif; }
   .hero-sub { margin-top:14px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#3a3a3a; opacity:0; animation:fadeUp 1s .8s forwards; }
   .hint { position:fixed; bottom:72px; right:52px; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:#888; z-index:50; pointer-events:none; opacity:0; animation:fadeIn 1s 3s forwards; }
   footer { position:fixed; bottom:28px; left:52px; font-size:10px; letter-spacing:.1em; color:#666; z-index:50; pointer-events:none; }
@@ -54,7 +53,7 @@
   .detail-close { position:absolute; top:28px; right:36px; background:none; border:1px solid #1e1e1e; color:#444; font-size:15px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:none; transition:border-color .3s,color .3s; z-index:10; font-family:'DM Mono',monospace; }
   .detail-close:hover { border-color:#c8a96e; color:#c8a96e; }
   .detail-img-wrap { position:relative; overflow:hidden; flex-shrink:0; }
-  .detail-img { width:100%; height:360px; object-fit:cover; object-position:top; background:#111; display:block; }
+  .detail-img { width:100%; height:360px; object-fit:cover; object-position:center; background:#111; display:block; }
   .detail-img-wrap::after { content:''; position:absolute; inset:0; background:linear-gradient(to bottom,transparent 45%,#0c0c0c 100%); pointer-events:none; }
   .detail-body { padding:30px 40px 56px; flex:1; }
   .detail-num { font-size:10px; color:#c8a96e; letter-spacing:.2em; margin-bottom:10px; display:block; }
@@ -98,7 +97,6 @@
 <div id="orb-hotspot"></div>
 
 <nav>
-  
   <ul class="nav-links">
     <li><a href="#" onclick="openAbout();return false;">About & Contact</a></li>
   </ul>
@@ -106,9 +104,10 @@
 
 <div class="hero-text">
   <h1 class="hero-title">Nevzat Onay <em>Jr.</em></h1>
-  <p class="hero-sub">Web Developer — Turkey</p>
+  <p class="hero-sub">BSc Immersive Technologies — Switzerland</p>
 </div>
 <p class="hint">Click a sphere to explore</p>
+
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightboxImg" src="" alt="">
@@ -133,7 +132,7 @@
     <div class="skill-item"><span class="skill-name">C++</span><span class="skill-level">■■■○○</span></div>
     <hr class="contact-divider">
     <span class="contact-label">Contact & Social</span>
-    <a href="mailto:nevzatonayjr&#64;.com" class="contact-item" style="display:flex;align-items:center;gap:16px;padding:15px 0;border-bottom:1px solid #111;text-decoration:none;cursor:none;transition:all .3s;">
+    <a href="mailto:nevzat@nevzatonayjr.com" class="contact-item" style="display:flex;align-items:center;gap:16px;padding:15px 0;border-bottom:1px solid #111;text-decoration:none;cursor:none;transition:all .3s;">
       <div class="contact-icon">✉</div>
       <div class="contact-item-info"><span class="contact-item-label">Email</span><span class="contact-item-name">nevzat&#64;nevzatonayjr.com</span></div>
       <span class="contact-item-arrow">↗</span>
@@ -150,7 +149,7 @@
     </a>
     <a href="https://instagram.com/nevzatonay_" target="_blank" class="contact-item" style="display:flex;align-items:center;gap:16px;padding:15px 0;border-bottom:1px solid #111;text-decoration:none;cursor:none;transition:all .3s;">
       <div class="contact-icon" style="font-size:13px;">◎</div>
-      <div class="contact-item-info"><span class="contact-item-label">Instagram</span><span class="contact-item-name">&#64;nevzatonayjr</span></div>
+      <div class="contact-item-info"><span class="contact-item-label">Instagram</span><span class="contact-item-name">&#64;nevzatonay_</span></div>
       <span class="contact-item-arrow">↗</span>
     </a>
   </div>
@@ -200,45 +199,57 @@ const PROJECTS = [
     shots:['PumpkinFarmer/ImagesVideos/Tool_table.png','PumpkinFarmer/ImagesVideos/PumpkinHarvest.png'],
     links:[{t:'Play Demo',h:'#'},{t:'Video',h:'#'}]
   },
-  { id:1, num:'P — 002', title:'The Fallen Knight', year:'2025',texture:'TFK/MainImage.png',img:'TFK/MainImage.png',orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2,tags:['Unity','C#','2D Platformer','Pixel Art'],text:'<p>A 2D side-scroller story-based action-platformer built in Unity. You play as Jack, a former knight on a journey to confront the betrayal of his king — saving villagers and facing skeletons along the way.</p><br><p>Features <strong>smooth animations, cinematic cutscenes</strong> and dynamic combat. The game delivers a dramatic and responsive gameplay experience with NPC dialogue, Cinemachine camera, and a full enemy AI system.</p>',meta:[{l:'Role',v:'Game Designer & Dev'},{l:'Engine',v:'Unity'},{l:'Type',v:'2D Platformer'},{l:'Team',v:'Nevzat & Mert'}],
-  video:null,shots:['TFK/ingame1.png','TFK/ingame2.png','TFK/Map.png'],links:[{t:'GitHub',h:'https://github.com/primexnev/TheFallenKnight_New-2'}]},
-  { id:2, num:'P — 003', title:'Cargo Tracking', year:'2025',texture:'CargoTracking/ingame1.png',img:'CargoTracking/ingame1.png',orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5,
-  tags:['Unity','C#','Dijkstra','Yen\'s Algorithm'],text:'<p>A cargo routing simulation built in Unity for the Canton of Zug. Starting from the main cargo hub, the app calculates the optimal route to delivery points across the region using real road data.</p><br><p>Users can <strong>select which roads are available</strong> for the cargo vehicle and set an estimated arrival time. The system uses <strong>Dijkstra and Yen\'s Algorithm</strong> to find the shortest and alternative routes dynamically.</p>',meta:[{l:'Role',v:'Developer'},{l:'Engine',v:'Unity'},{l:'Algorithms',v:'Dijkstra & Yen\'s'},{l:'Region',v:'Canton of Zug'}],
-  video:'CargoTracking/cargotracker.mp4',shots:['CargoTracking/ingame1.png'],links:[{t:'GitHub',h:'#'}]
-},
-{  id:3, num:'P — 004', title:'3D Mod Museum', year:'2025',
-  texture:'3DMod/ingame1.png',
-  img:'3DMod/ingame1.png',
-  orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4,
-  tags:['3D Modelling','3D Scanning','Museum Design',],
-  text:'<p>A virtual museum built from real-world 3D scans and custom-made models. Every exhibit was physically scanned or modelled from scratch, then assembled into a navigable museum environment.</p><br><p>The project explores how <strong>3D scanning and modelling</strong> can digitally preserve and present objects in blender.</p>',
-  meta:[{l:'Role',v:'3D Artist'},{l:'Type',v:'3D Museum'},{l:'Tools',v:'Blender'},{l:'Year',v:'2025'}],
-  video:'3DMod/Museum.mp4',
-  shots:[],
-  links:[{t:'View Project',h:'#'}]
-},
-{ id:4, num:'P — 005', title:'SPACE', year:'2025',
-  texture:'Space/ingame1.png',
-  img:'Space/ingame1.png',
-  orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15,
-  tags:['Game Design','Card Game','Photoshop','Strategy'],
-  text:'<p>A strategic space-themed card game inspired by classic UNO mechanics. Players compete to be the first to discard all their cards using unique special cards like Shield, Star Attack, Meteor Shower, Alien Attack, and Gravity Distortion.</p><br><p>Designed through <strong>3 playtesting iterations</strong> with friends, balancing special card effects and mechanics. The final version delivers a dynamic, unpredictable experience for 3+ players ages 7 and up.</p>',
-  meta:[{l:'Role',v:'Game Designer'},{l:'Type',v:'Card Game'},{l:'Players',v:'3+ / Ages 7+'},{l:'Tools',v:'Photoshop'}],
-  video:null,
-  shots:['Space/ingame1.png','Space/ingame2.png','Space/ingame3.png','Space/ingame4.png'],
-  links:[{t:'View GDD',h:'#'}]
-}
-,{ id:5, num:'P — 006', title:'Level & World Design', year:'2025',
-  texture:'LWD/gamevideo.mp4',
-  img:'LWD/gamevideo.mp4',
-  orbitR:8.5, orbitSpeed:0.07, orbitOffset:1.0, orbitTilt:0.2,
-  tags:['Level Design','World Building','Game Design','Unity'],
-  text:'<p>Details coming soon.</p>',
-  meta:[{l:'Role',v:'Level Designer'},{l:'Type',v:'Level Design'},{l:'Status',v:'In progress'},{l:'Year',v:'2025'}],
-  video:'LWD/gamevideo.mp4',
-  shots:[],
-  links:[{t:'View Project',h:'#'}]
-}
+  { id:1, num:'P — 002', title:'The Fallen Knight', year:'2025',
+    texture:'TFK/MainImage.png', img:'TFK/MainImage.png',
+    orbitR:3.5, orbitSpeed:0.26, orbitOffset:1.26, orbitTilt:-0.2,
+    tags:['Unity','C#','2D Platformer','Pixel Art'],
+    text:'<p>A 2D side-scroller story-based action-platformer built in Unity. You play as Jack, a former knight on a journey to confront the betrayal of his king — saving villagers and facing skeletons along the way.</p><br><p>Features <strong>smooth animations, cinematic cutscenes</strong> and dynamic combat. The game delivers a dramatic and responsive gameplay experience with NPC dialogue, Cinemachine camera, and a full enemy AI system.</p>',
+    meta:[{l:'Role',v:'Game Designer & Dev'},{l:'Engine',v:'Unity'},{l:'Type',v:'2D Platformer'},{l:'Team',v:'Nevzat & Mert'}],
+    video:null,
+    shots:['TFK/ingame1.png','TFK/ingame2.png','TFK/Map.png'],
+    links:[{t:'GitHub',h:'https://github.com/primexnev/TheFallenKnight_New-2'}]
+  },
+  { id:2, num:'P — 003', title:'Cargo Tracking', year:'2025',
+    texture:'CargoTracking/ingame1.png', img:'CargoTracking/ingame1.png',
+    orbitR:4.6, orbitSpeed:0.18, orbitOffset:2.51, orbitTilt:0.5,
+    tags:['Unity','C#','Dijkstra',"Yen's Algorithm"],
+    text:'<p>A cargo routing simulation built in Unity for the Canton of Zug. Starting from the main cargo hub, the app calculates the optimal route to delivery points across the region using real road data.</p><br><p>Users can <strong>select which roads are available</strong> for the cargo vehicle and set an estimated arrival time. The system uses <strong>Dijkstra and Yen\'s Algorithm</strong> to find the shortest and alternative routes dynamically.</p>',
+    meta:[{l:'Role',v:'Developer'},{l:'Engine',v:'Unity'},{l:'Algorithms',v:"Dijkstra & Yen's"},{l:'Region',v:'Canton of Zug'}],
+    video:'CargoTracking/cargotracker.mp4',
+    shots:['CargoTracking/ingame1.png'],
+    links:[{t:'GitHub',h:'#'}]
+  },
+  { id:3, num:'P — 004', title:'3D Mod Museum', year:'2025',
+    texture:'3DMod/ingame1.png', img:'3DMod/ingame1.png',
+    orbitR:5.8, orbitSpeed:0.13, orbitOffset:3.77, orbitTilt:-0.4,
+    tags:['3D Modelling','3D Scanning','Museum Design','Blender'],
+    text:'<p>A virtual museum built from real-world 3D scans and custom-made models. Every exhibit was physically scanned or modelled from scratch, then assembled into a navigable museum environment.</p><br><p>The project explores how <strong>3D scanning and modelling</strong> can digitally preserve and present objects in an immersive spatial context.</p>',
+    meta:[{l:'Role',v:'3D Artist'},{l:'Type',v:'3D Museum'},{l:'Tools',v:'Blender'},{l:'Year',v:'2025'}],
+    video:'3DMod/Museum.mp4',
+    shots:[],
+    links:[{t:'View Project',h:'#'}]
+  },
+  { id:4, num:'P — 005', title:'SPACE', year:'2025',
+    texture:'SPACE/ingame1.png', img:'SPACE/ingame1.png',
+    orbitR:7.0, orbitSpeed:0.09, orbitOffset:5.03, orbitTilt:0.15,
+    tags:['Game Design','Card Game','Photoshop','Strategy'],
+    text:'<p>A strategic space-themed card game inspired by classic UNO mechanics. Players compete to be the first to discard all their cards using unique special cards like Shield, Star Attack, Meteor Shower, Alien Attack, and Gravity Distortion.</p><br><p>Designed through <strong>3 playtesting iterations</strong> with friends, balancing special card effects and mechanics. The final version delivers a dynamic, unpredictable experience for 3+ players ages 7 and up.</p>',
+    meta:[{l:'Role',v:'Game Designer'},{l:'Type',v:'Card Game'},{l:'Players',v:'3+ / Ages 7+'},{l:'Tools',v:'Photoshop'}],
+    video:null,
+    shots:['SPACE/ingame1.png','SPACE/ingame2.png','SPACE/ingame3.png','SPACE/ingame4.png'],
+    links:[{t:'View GDD',h:'#'}]
+  },
+  { id:5, num:'P — 006', title:'Level & World Design', year:'2025',
+    texture:'https://picsum.photos/seed/leveldesign/256/256',
+    img:'https://picsum.photos/seed/leveldesign/900/400',
+    orbitR:8.5, orbitSpeed:0.07, orbitOffset:1.0, orbitTilt:0.2,
+    tags:['Level Design','World Building','Game Design','Unity'],
+    text:'<p>Details coming soon.</p>',
+    meta:[{l:'Role',v:'Level Designer'},{l:'Type',v:'Level Design'},{l:'Status',v:'In progress'},{l:'Year',v:'2025'}],
+    video:'LWD/gamevideo.mp4',
+    shots:[],
+    links:[{t:'View Project',h:'#'}]
+  }
 ];
 
 const canvas = document.getElementById('three-canvas');
@@ -391,7 +402,7 @@ function openDetail(pid){
     videoEl.src=p.video;
     videoEl.style.display='block';
     videoPlaceholder.style.display='none';
-  } else if(p.video === null && p.id !== 4) {
+  } else if(p.video===null && p.id!==4){
     videoWrap.style.display='block';
     videoEl.style.display='none';
     videoEl.src='';
@@ -499,7 +510,7 @@ window.addEventListener('resize',()=>{
   renderer.setSize(innerWidth,innerHeight);
 });
 
-if(e.key==='Escape'){ closeDetail(); closeAbout(); closeLightbox(); }
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDetail();closeAbout();closeLightbox();}});
 </script>
 </body>
 </html>
