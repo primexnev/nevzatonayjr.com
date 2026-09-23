@@ -180,6 +180,7 @@
   .brief-text { font-size:13px; line-height:1.85; color:var(--dim); }
   .brief-text p + p { margin-top:14px; }
   .brief-text strong { color:var(--fg); font-weight:400; }
+  .brief-text em { font-style:normal; color:var(--acc); }
   .stats { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); }
   .stat { padding:12px 0; border-bottom:1px solid var(--line); }
   .stat:nth-child(odd) { padding-right:14px; }
@@ -397,6 +398,12 @@ const PROJECTS = [
     text:'<p>Level and world design explorations — layout, pacing and environmental storytelling. Full write-up coming soon; watch the footage in the meantime.</p>',
     meta:[['Role','Level Designer'],['Type','Level Design'],['Status','In progress'],['Year','2025']],
     links:[['View Project','#']] },
+  { title:'TechMath±', year:'2026', type:'Educational Game',
+    img:'TechMath/menu.png', shots:['TechMath/fingermath.png','TechMath/squeezeit.png'],
+    tags:['p5.js','ml5.js HandPose','Arduino','Interaction Design'],
+    text:'<p>An interactive math game for primary school children (ages 6–9) that turns basic arithmetic into a <strong>physical, embodied experience</strong>. No keyboard, no tapping: children answer with their hands, their bodies and tangible objects. The idea is simple: math should be felt, not just calculated.</p><p><strong>Squeeze It!</strong> Children squeeze a soft object fitted with a force sensor (Arduino Nano + FSR, connected over the Web Serial API). The harder they squeeze, the higher the number climbs, and holding steady for two seconds submits the answer. <em>This mode needs the custom hardware, so it can’t be played online.</em></p><p><strong>Finger Math</strong> Children show the answer with their fingers. ml5.js HandPose counts them live through the webcam, a closed fist submits, two-fist input covers answers up to 20, and the difficulty adapts to each child. <em>Anyone can play this mode in the browser with a webcam.</em></p><p><strong>Play it yourself:</strong> Finger Math runs in desktop Chrome or Edge with a webcam. It will most likely not work on mobile devices.</p><p>Built for the Interaction Design module at Hochschule Luzern (HSLU). © 2026 Nevzat Onay &amp; Mert Karan Nazikoğlu.</p>',
+    meta:[['Role','Designer & Developer'],['Stack','p5.js · ml5.js · Arduino'],['Type','Educational Game'],['Audience','Ages 6–9'],['Team','Nevzat & Mert Karan'],['Playable','Finger Math — desktop only']],
+    links:[['Play Finger Math (desktop)','https://primexnev.github.io/TechMath/'],['GitHub','https://github.com/primexnev/TechMath']] },
   { title:'Gates', year:'2025', type:'Logic Puzzle', locked:true,
     img:null, video:'Gates/gamevideo.mp4', shots:[],
     tags:['Logic','Math','Game Design','Unreal Engine'],
