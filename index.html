@@ -6,7 +6,7 @@
 <title>Nevzat Onay Jr. — Worlds</title>
 <meta name="description" content="Nevzat Onay Jr. — game designer & developer. An interactive portfolio you fly through, level by level.">
 <meta name="theme-color" content="#050506">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050506'/%3E%3Cpath d='M6 12V6h6M20 6h6v6M26 20v6h-6M12 26H6v-6' stroke='%23c6ff3d' stroke-width='2' fill='none'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23c6ff3d'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050506'/%3E%3Cpath d='M2 7V2h5M25 2h5v5M30 25v5h-5M7 30H2v-5' stroke='%23c6ff3d' stroke-opacity='.55' stroke-width='1.5' fill='none'/%3E%3Cpath d='M5.5 23V9h3l3 7.4V9h3v14h-3l-3-7.4V23z' fill='%23ecebe6'/%3E%3Crect x='17.5' y='10.5' width='9' height='11' rx='4.5' stroke='%23c6ff3d' stroke-width='3' fill='none'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Unbounded:wght@200;400;600;800&display=swap" rel="stylesheet">
@@ -155,7 +155,7 @@
   /* ── level briefing (project detail) ──────── */
   .brief { position:fixed; inset:0; z-index:60; background:var(--panel); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); clip-path:inset(0 0 100% 0); transition:clip-path .8s cubic-bezier(.77,0,.18,1); visibility:hidden; }
   .brief.open { clip-path:inset(0 0 0 0); visibility:visible; }
-  .brief-media { padding:calc(var(--pad) + 40px) var(--pad) var(--pad); display:flex; flex-direction:column; gap:12px; min-height:0; border-right:1px solid var(--line); }
+  .brief-media { padding:calc(var(--pad) + 58px) var(--pad) var(--pad); display:flex; flex-direction:column; gap:12px; min-height:0; border-right:1px solid var(--line); }
   .brief-stage { position:relative; flex:1; min-height:0; background:#000; border:1px solid var(--line); overflow:hidden; }
   .brief-stage img, .brief-stage video { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#000; }
   .brief-stage::before, .brief-stage::after { content:''; position:absolute; width:14px; height:14px; z-index:2; border:0 solid var(--acc); pointer-events:none; }
@@ -170,10 +170,12 @@
   .thumb:hover { opacity:.85; }
   .thumb.on { opacity:1; border-color:var(--acc); }
   .thumb.vid::after { content:'▶ VIDEO'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:9px; letter-spacing:.18em; color:var(--acc); background:rgba(0,0,0,.55); }
-  .brief-info { overflow-y:auto; padding:calc(var(--pad) + 40px) var(--pad) var(--pad); }
-  .back { display:inline-flex; gap:10px; align-items:center; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); padding:9px 12px; margin-bottom:34px; transition:color .25s,border-color .25s; }
+  .brief-info { overflow-y:auto; padding:calc(var(--pad) + 58px) var(--pad) var(--pad); }
+  .back { position:absolute; top:var(--pad); left:var(--pad); z-index:5; display:inline-flex; gap:12px; align-items:center; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--fg); background:rgba(5,5,6,.75); border:1px solid var(--line); padding:10px 14px 10px 12px; transition:color .25s,border-color .25s,background .25s; }
   .back:hover { color:var(--acc); border-color:var(--acc-dim); }
-  .back kbd { font-family:var(--hud); font-size:9px; color:var(--fg); }
+  .back-arrow { font-size:14px; line-height:1; color:var(--acc); transition:transform .25s; }
+  .back:hover .back-arrow { transform:translateX(-3px); }
+  .back kbd { font-family:var(--hud); font-size:9px; color:var(--dim); border:1px solid var(--line); padding:2px 5px; }
   .brief-title { font-family:var(--disp); font-weight:600; font-size:clamp(30px,3.6vw,56px); line-height:.95; letter-spacing:-.02em; text-transform:uppercase; margin:16px 0 10px; }
   .brief-sub { font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); margin-bottom:34px; }
   .brief-block { margin-bottom:30px; }
@@ -203,12 +205,39 @@
   .boot-log { font-size:11px; line-height:1.9; color:var(--dim); min-height:9.5em; }
   .boot-log .ok { color:var(--acc); }
   .boot-row { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; margin-top:20px; flex-wrap:wrap; }
-  .boot-pct { font-family:var(--disp); font-weight:800; font-size:clamp(72px,16vw,220px); line-height:.8; letter-spacing:-.04em; }
+  .boot-pct { font-family:var(--disp); font-weight:800; font-size:clamp(64px,12vw,170px); line-height:.8; letter-spacing:-.04em; }
   .boot-pct small { font-size:.3em; font-weight:200; color:var(--acc); }
   .boot-bar { height:1px; background:var(--faint); margin-top:22px; position:relative; }
   .boot-bar i { position:absolute; left:0; top:-1px; height:3px; width:0; background:var(--acc); }
-  .boot-actions { display:flex; flex-direction:column; align-items:flex-end; gap:12px; opacity:0; transform:translateY(10px); transition:opacity .6s,transform .6s; pointer-events:none; }
-  .boot-actions.show { opacity:1; transform:none; pointer-events:auto; }
+  /* centre piece: brackets close in, ring fills, NO monogram draws itself, then the enter buttons take the stage */
+  .boot-center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-bottom:20vh; pointer-events:none; }
+  .core { position:relative; width:clamp(180px,26vmin,260px); aspect-ratio:1; transition:transform 1s cubic-bezier(.16,1,.3,1); }
+  .core svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .core .spin { transform-origin:100px 100px; animation:spin 14s linear infinite; }
+  .core .spin-fast { transform-origin:100px 100px; animation:spin 3.2s linear infinite reverse; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .core .prog { transition:filter .6s; }
+  .core .logo-n { fill:var(--fg); fill-opacity:0; transition:fill-opacity .6s; }
+  .core .flash { opacity:0; }
+  .br { position:absolute; width:22px; height:22px; border:0 solid var(--acc); transition:transform .15s linear, border-color .6s; }
+  .br.tl { top:0; left:0; border-top-width:1.5px; border-left-width:1.5px; }
+  .br.tr { top:0; right:0; border-top-width:1.5px; border-right-width:1.5px; }
+  .br.bl { bottom:0; left:0; border-bottom-width:1.5px; border-left-width:1.5px; }
+  .br.br2 { bottom:0; right:0; border-bottom-width:1.5px; border-right-width:1.5px; }
+  .core-lbl { position:absolute; left:50%; bottom:-34px; transform:translateX(-50%); white-space:nowrap; font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--dim); transition:opacity .5s, color .5s; }
+  .boot.ready .core { transform:scale(.82); }
+  .boot.ready .core .logo-n { fill-opacity:1; }
+  .boot.ready #logoN, .boot.ready #logoO { stroke-dasharray:none; }
+  .boot.ready .core .prog { filter:drop-shadow(0 0 6px rgba(198,255,61,.8)); }
+  .boot.ready .core .flash { animation:flash 1s ease-out forwards; }
+  @keyframes flash { 0% { opacity:.9; r:78; stroke-width:2; } 100% { opacity:0; r:130; stroke-width:.5; } }
+  .boot.ready .core-lbl { opacity:0; }
+  .boot-actions { display:flex; flex-direction:column; align-items:center; gap:14px; max-height:0; overflow:hidden; opacity:0; transform:translateY(12px); transition:max-height .9s cubic-bezier(.16,1,.3,1), opacity .6s .2s, transform .8s .2s cubic-bezier(.16,1,.3,1), margin .9s cubic-bezier(.16,1,.3,1); pointer-events:none; }
+  .boot-actions.show { max-height:220px; margin-top:34px; opacity:1; transform:none; pointer-events:auto; padding:0 8px 8px; }
+  .boot-row .boot-status { font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:var(--faint); text-align:right; }
+  .boot.ready .boot-status { color:var(--acc); }
+  @media (max-width:640px), (max-height:640px) { .boot-log { display:none; } .boot-center { padding-bottom:16vh; } }
+  @media (prefers-reduced-motion:reduce) { .core .spin, .core .spin-fast { animation:none; } }
   .enter { font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--bg); background:var(--acc); padding:18px 26px; cursor:pointer; transition:transform .25s,box-shadow .25s; }
   .enter:hover { transform:translateY(-2px); box-shadow:0 14px 40px -12px var(--acc); }
   .enter-mute { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); cursor:pointer; border-bottom:1px solid var(--faint); padding-bottom:3px; }
@@ -218,9 +247,10 @@
   /* ── responsive ───────────────────────────── */
   @media (max-width:900px) {
     .brief { grid-template-columns:1fr; overflow-y:auto; display:block; }
-    .brief-media { height:52vh; border-right:none; padding-top:calc(var(--pad) + 56px); }
+    .brief-media { height:52vh; border-right:none; padding-top:14px; }
     .brief-info { overflow:visible; padding-top:24px; }
-    .back { position:fixed; top:var(--pad); left:var(--pad); z-index:5; background:var(--bg); margin:0; }
+    .back { position:sticky; top:var(--pad); left:auto; display:flex; width:fit-content; margin:var(--pad) 0 0 var(--pad); min-height:44px; padding:12px 16px 12px 14px; background:var(--bg); box-shadow:0 8px 24px rgba(0,0,0,.6); }
+    .back kbd { display:none; }
     .profile-card { grid-template-columns:1fr; }
     .avatar { display:none; }
     .profile-info { max-height:calc(100vh - 200px); }
@@ -321,12 +351,12 @@
 </section>
 
 <section class="brief" id="brief" aria-hidden="true" aria-label="Level briefing">
+  <button class="back" id="bBack" aria-label="Back to the run (Esc)"><span class="back-arrow">←</span><span class="back-lbl">Back to the run</span><kbd>Esc</kbd></button>
   <div class="brief-media">
     <div class="brief-stage" id="bStage"></div>
     <div class="brief-thumbs" id="bThumbs"></div>
   </div>
   <div class="brief-info">
-    <button class="back" id="bBack"><kbd>Esc</kbd> Back to the run</button>
     <p class="kicker" id="bKicker"></p>
     <h2 class="brief-title" id="bTitle"></h2>
     <p class="brief-sub" id="bSub"></p>
@@ -339,14 +369,35 @@
 </section>
 
 <div class="boot" id="boot">
-  <div class="boot-log" id="bootLog"></div>
-  <div class="boot-row">
-    <div class="boot-pct"><span id="bootPct">000</span><small>%</small></div>
+  <div class="boot-center">
+    <div class="core" id="core" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <g class="spin"><circle cx="100" cy="100" r="94" fill="none" stroke="rgba(236,235,230,.22)" stroke-width="1" stroke-dasharray="1 5"/></g>
+        <g class="spin-fast"><circle cx="100" cy="100" r="94" fill="none" stroke="#c6ff3d" stroke-width="1.5" stroke-dasharray="26 565" stroke-linecap="round"/></g>
+        <circle cx="100" cy="100" r="78" fill="none" stroke="rgba(236,235,230,.08)" stroke-width="2"/>
+        <circle class="prog" id="coreRing" cx="100" cy="100" r="78" fill="none" stroke="#c6ff3d" stroke-width="2" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 100 100)"/>
+        <circle class="flash" cx="100" cy="100" r="78" fill="none" stroke="#c6ff3d"/>
+        <g stroke-linecap="square" fill="none" stroke="rgba(236,235,230,.35)" stroke-width="1">
+          <path d="M100 2v8M100 190v8M2 100h8M190 100h8"/>
+        </g>
+        <g transform="translate(100 100) scale(3.1) translate(-16 -16)">
+          <path class="logo-n" id="logoN" d="M5.5 23V9h3l3 7.4V9h3v14h-3l-3-7.4V23z" stroke="#ecebe6" stroke-width=".45" stroke-linejoin="miter" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+          <rect id="logoO" x="17.5" y="10.5" width="9" height="11" rx="4.5" fill="none" stroke="#c6ff3d" stroke-width="3" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+        </g>
+      </svg>
+      <span class="br tl"></span><span class="br tr"></span><span class="br bl"></span><span class="br br2"></span>
+      <span class="core-lbl" id="coreLbl">Loading worlds</span>
+    </div>
     <div class="boot-actions" id="bootActions">
       <button class="enter" id="enterSound">Enter with sound</button>
       <button class="enter-mute" id="enterMute">Enter muted</button>
       <span class="boot-note">Scroll · Arrow keys · Click the worlds</span>
     </div>
+  </div>
+  <div class="boot-log" id="bootLog"></div>
+  <div class="boot-row">
+    <div class="boot-pct"><span id="bootPct">000</span><small>%</small></div>
+    <div class="boot-status" id="bootStatus">System booting</div>
   </div>
   <div class="boot-bar"><i id="bootBar"></i></div>
 </div>
@@ -361,6 +412,13 @@ import * as THREE from 'three';
 
 /* ═══════════════ DATA ═══════════════ */
 const PROJECTS = [
+  { title:'Projection Mapping', year:'2026', type:'Projection Mapping',
+    img:'ProjectionMapping/cover.jpg', video:'ProjectionMapping/LabArt_Final_Video.mp4', videoCropX:.071, videoLabel:'Animation',
+    shots:['ProjectionMapping/wireframe.jpg','ProjectionMapping/character.jpg','ProjectionMapping/vr.jpg'],
+    tags:['Projection Mapping','3D Animation','First-Person','Lab ART'],
+    text:'<p>A 50-second animation built from scratch for the <strong>Lab ART</strong> course and projection-mapped onto a physical object. The goal: create a <strong>first-person perspective</strong> that pulls the viewer into the object, and turn it into a visual spectacle.</p><p>The camera travels down a stone corridor towards the HSLU mark. A wireframe scan sweeps through the space, the tools of immersive tech light up along the walls, and a character drops in, pulls on a VR headset and dives into the world, before everything collapses back into a single glowing logo.</p>',
+    meta:[['Course','Lab ART'],['Type','Projection Mapping'],['Length','50 s animation'],['Year','2026']],
+    links:[] },
   { title:'Pumpkin Farmer', year:'2025', type:'First-Person Sim',
     img:'PumpkinFarmer/ImagesVideos/Opening_Image.png',
     shots:['PumpkinFarmer/ImagesVideos/Tool_table.png','PumpkinFarmer/ImagesVideos/PumpkinHarvest.png'],
@@ -368,6 +426,18 @@ const PROJECTS = [
     text:'<p>A first-person farming simulation built in Unreal Engine 5.6 with Blueprints. The player has 5 minutes to plant and harvest as many pumpkins as possible.</p><p>Each crop requires a <strong>six-step preparation sequence</strong> before it goes in the ground. Ignore a growing crop too long and it stops growing, then dies.</p><p>The design is built around <strong>pipeline tension</strong>: plant one more, or run back to save a failing crop? Simple rules, constant pressure.</p>',
     meta:[['Role','Game Designer & Dev'],['Engine','Unreal Engine 5.6'],['Type','First-Person Sim'],['Status','In progress']],
     links:[['Play Demo','#'],['Video','#']] },
+  { title:'3D Mod Museum', year:'2025', type:'Virtual Museum',
+    img:'3DMod/ingame1.png', video:'3DMod/Museum.mp4', shots:[],
+    tags:['3D Modelling','3D Scanning','Museum Design','Blender'],
+    text:'<p>A virtual museum built from real-world 3D scans and custom-made models. Every exhibit was physically scanned or modelled from scratch, then assembled into a navigable museum environment.</p><p>The project explores how <strong>3D scanning and modelling</strong> can digitally preserve and present objects in an immersive spatial context.</p>',
+    meta:[['Role','3D Artist'],['Type','3D Museum'],['Tools','Blender'],['Year','2025']],
+    links:[['View Project','#']] },
+  { title:'TechMath±', year:'2026', type:'Educational Game',
+    img:'TechMath/menu.png', shots:['TechMath/fingermath.png','TechMath/squeezeit.png'],
+    tags:['p5.js','ml5.js HandPose','Arduino','Interaction Design'],
+    text:'<p>An interactive math game for primary school children (ages 6–9) that turns basic arithmetic into a <strong>physical, embodied experience</strong>. No keyboard, no tapping: children answer with their hands, their bodies and tangible objects. The idea is simple: math should be felt, not just calculated.</p><p><strong>Squeeze It!</strong> Children squeeze a soft object fitted with a force sensor (Arduino Nano + FSR, connected over the Web Serial API). The harder they squeeze, the higher the number climbs, and holding steady for two seconds submits the answer. <em>This mode needs the custom hardware, so it can’t be played online.</em></p><p><strong>Finger Math</strong> Children show the answer with their fingers. ml5.js HandPose counts them live through the webcam, a closed fist submits, two-fist input covers answers up to 20, and the difficulty adapts to each child. <em>Anyone can play this mode in the browser with a webcam.</em></p><p><strong>Play it yourself:</strong> Finger Math runs in desktop Chrome or Edge with a webcam. It will most likely not work on mobile devices.</p><p>Built for the Interaction Design module at Hochschule Luzern (HSLU). © 2026 Nevzat Onay &amp; Mert Karan Nazikoğlu.</p>',
+    meta:[['Role','Designer & Developer'],['Stack','p5.js · ml5.js · Arduino'],['Type','Educational Game'],['Audience','Ages 6–9'],['Team','Nevzat & Mert Karan'],['Playable','Finger Math — desktop only']],
+    links:[['Play Finger Math (desktop)','https://primexnev.github.io/TechMath/'],['GitHub','https://github.com/primexnev/TechMath']] },
   { title:'The Fallen Knight', year:'2025', type:'2D Platformer',
     img:'TFK/MainImage.png', shots:['TFK/ingame1.png','TFK/ingame2.png','TFK/Map.png'],
     tags:['Unity','C#','2D Platformer','Pixel Art'],
@@ -380,30 +450,12 @@ const PROJECTS = [
     text:'<p>A cargo routing simulation built in Unity for the Canton of Zug. Starting from the main cargo hub, the app calculates the optimal route to delivery points across the region using real road data.</p><p>Users can <strong>select which roads are available</strong> for the cargo vehicle and set an estimated arrival time. The system uses <strong>Dijkstra and Yen\'s Algorithm</strong> to find the shortest and alternative routes dynamically.</p>',
     meta:[['Role','Developer'],['Engine','Unity'],['Algorithms',"Dijkstra & Yen's"],['Region','Canton of Zug']],
     links:[['GitHub','#']] },
-  { title:'3D Mod Museum', year:'2025', type:'Virtual Museum',
-    img:'3DMod/ingame1.png', video:'3DMod/Museum.mp4', shots:[],
-    tags:['3D Modelling','3D Scanning','Museum Design','Blender'],
-    text:'<p>A virtual museum built from real-world 3D scans and custom-made models. Every exhibit was physically scanned or modelled from scratch, then assembled into a navigable museum environment.</p><p>The project explores how <strong>3D scanning and modelling</strong> can digitally preserve and present objects in an immersive spatial context.</p>',
-    meta:[['Role','3D Artist'],['Type','3D Museum'],['Tools','Blender'],['Year','2025']],
-    links:[['View Project','#']] },
-  { title:'Space', year:'2025', type:'Card Game',
-    img:'Space/ingame3.png', shots:['Space/ingame1.png','Space/ingame2.png','Space/ingame4.png'],
-    tags:['Game Design','Card Game','Photoshop','Strategy'],
-    text:'<p>A strategic space-themed card game inspired by classic UNO mechanics. Players race to discard all their cards using special cards like Shield, Star Attack, Meteor Shower, Alien Attack and Gravity Distortion.</p><p>Designed through <strong>3 playtesting iterations</strong>, balancing special card effects and mechanics. The final version delivers a dynamic, unpredictable experience for 3+ players ages 7 and up.</p>',
-    meta:[['Role','Game Designer'],['Type','Card Game'],['Players','3+ / Ages 7+'],['Tools','Photoshop']],
-    links:[['View GDD','#']] },
   { title:'Level & World Design', year:'2025', type:'Level Design',
     img:null, video:'LWD/gamevideo.mp4', videoCrop:.125, shots:[],
     tags:['Level Design','World Building','Game Design','Unity'],
     text:'<p>Level and world design explorations — layout, pacing and environmental storytelling. Full write-up coming soon; watch the footage in the meantime.</p>',
     meta:[['Role','Level Designer'],['Type','Level Design'],['Status','In progress'],['Year','2025']],
     links:[['View Project','#']] },
-  { title:'TechMath±', year:'2026', type:'Educational Game',
-    img:'TechMath/menu.png', shots:['TechMath/fingermath.png','TechMath/squeezeit.png'],
-    tags:['p5.js','ml5.js HandPose','Arduino','Interaction Design'],
-    text:'<p>An interactive math game for primary school children (ages 6–9) that turns basic arithmetic into a <strong>physical, embodied experience</strong>. No keyboard, no tapping: children answer with their hands, their bodies and tangible objects. The idea is simple: math should be felt, not just calculated.</p><p><strong>Squeeze It!</strong> Children squeeze a soft object fitted with a force sensor (Arduino Nano + FSR, connected over the Web Serial API). The harder they squeeze, the higher the number climbs, and holding steady for two seconds submits the answer. <em>This mode needs the custom hardware, so it can’t be played online.</em></p><p><strong>Finger Math</strong> Children show the answer with their fingers. ml5.js HandPose counts them live through the webcam, a closed fist submits, two-fist input covers answers up to 20, and the difficulty adapts to each child. <em>Anyone can play this mode in the browser with a webcam.</em></p><p><strong>Play it yourself:</strong> Finger Math runs in desktop Chrome or Edge with a webcam. It will most likely not work on mobile devices.</p><p>Built for the Interaction Design module at Hochschule Luzern (HSLU). © 2026 Nevzat Onay &amp; Mert Karan Nazikoğlu.</p>',
-    meta:[['Role','Designer & Developer'],['Stack','p5.js · ml5.js · Arduino'],['Type','Educational Game'],['Audience','Ages 6–9'],['Team','Nevzat & Mert Karan'],['Playable','Finger Math — desktop only']],
-    links:[['Play Finger Math (desktop)','https://primexnev.github.io/TechMath/'],['GitHub','https://github.com/primexnev/TechMath']] },
   { title:'Gates', year:'2025', type:'Logic Puzzle', locked:true,
     img:null, video:'Gates/gamevideo.mp4', shots:[],
     tags:['Logic','Math','Game Design','Unreal Engine'],
@@ -440,10 +492,16 @@ const Sound = {
     this.bp=c.createBiquadFilter(); this.bp.type='bandpass'; this.bp.frequency.value=500; this.bp.Q.value=.7;
     this.ng=c.createGain(); this.ng.gain.value=0; n.connect(this.bp); this.bp.connect(this.ng); this.ng.connect(this.master); n.start();
   },
+  ducked:false,
   set(on){
     this.on = on; $('sndState').textContent = on?'On':'Off'; $('sndBtn').classList.toggle('muted',!on);
     if(!this.ctx) return; if(on) this.ctx.resume();
-    this.master.gain.setTargetAtTime(on?.7:0, this.ctx.currentTime, .5);
+    this.master.gain.setTargetAtTime(on ? (this.ducked ? .08 : .7) : 0, this.ctx.currentTime, .5);
+  },
+  // pull the ambient drone down while a briefing video is playing with sound
+  duck(d){
+    this.ducked = d;
+    if(this.ctx && this.on) this.master.gain.setTargetAtTime(d ? .08 : .7, this.ctx.currentTime, .3);
   },
   update(v){
     if(!this.ctx || !this.on) return;
@@ -524,7 +582,7 @@ const planeVert = /* glsl */`
 const planeFrag = /* glsl */`
   uniform sampler2D uTex, uVid;
   uniform vec2 uImg, uVidSize, uPlane;
-  uniform float uVel, uTime, uHover, uFocus, uVidMix, uReveal, uFogD, uLocked, uVidCrop;
+  uniform float uVel, uTime, uHover, uFocus, uVidMix, uReveal, uFogD, uLocked, uVidCrop, uVidCropX;
   uniform vec3 uBg, uWarn;
   varying vec2 vUv; varying float vDepth;
   vec2 cover(vec2 uv, vec2 img){
@@ -543,7 +601,7 @@ const planeFrag = /* glsl */`
     float band = step(.985 - abs(uVel)*.12, hash(vec2(floor(vUv.y*40.0), floor(uTime*18.0))));
     c.x += band*(hash(vec2(uTime, vUv.y))-.5)*.08*(abs(uVel)+uLocked*.4);
     vec3 a = rgbShift(uTex, cover(c,uImg), s);
-    vec2 vu = cover(c,uVidSize); vu.y = uVidCrop + vu.y*(1.0 - 2.0*uVidCrop);   // trim baked-in letterbox bars
+    vec2 vu = cover(c,uVidSize); vu.y = uVidCrop + vu.y*(1.0 - 2.0*uVidCrop); vu.x = uVidCropX + vu.x*(1.0 - 2.0*uVidCropX);   // trim baked-in letterbox / pillarbox bars
     vec3 b = rgbShift(uVid, vu, s);
     vec3 col = mix(a, b, uVidMix);
     float g = dot(col, vec3(.299,.587,.114));
@@ -603,7 +661,7 @@ PROJECTS.forEach((p,i) => {
   const uniforms = {
     uTex:{value:blank}, uVid:{value:blank}, uImg:{value:new THREE.Vector2(16,9)}, uVidSize:{value:new THREE.Vector2(16,9)},
     uPlane:{value:new THREE.Vector2(PW,PH)}, uVel:{value:0}, uTime:{value:0}, uHover:{value:0}, uFocus:{value:0},
-    uVidMix:{value:0}, uVidCrop:{value:p.videoCrop||0}, uReveal:{value:0}, uFogD:{value:fogD}, uLocked:{value:p.locked?1:0},
+    uVidMix:{value:0}, uVidCrop:{value:p.videoCrop||0}, uVidCropX:{value:p.videoCropX||0}, uReveal:{value:0}, uFogD:{value:fogD}, uLocked:{value:p.locked?1:0},
     uBg:{value:BG}, uWarn:{value:WARN},
   };
   if(p.img){
@@ -618,7 +676,7 @@ PROJECTS.forEach((p,i) => {
     v = document.createElement('video');
     Object.assign(v, { muted:true, loop:true, playsInline:true, preload:'none' });
     v.setAttribute('playsinline','');
-    v.addEventListener('loadedmetadata', () => uniforms.uVidSize.value.set(v.videoWidth, v.videoHeight*(1 - 2*(p.videoCrop||0))));
+    v.addEventListener('loadedmetadata', () => uniforms.uVidSize.value.set(v.videoWidth*(1 - 2*(p.videoCropX||0)), v.videoHeight*(1 - 2*(p.videoCrop||0))));
     uniforms.uVid.value = new THREE.VideoTexture(v);
   }
   videos.push(v);
@@ -856,8 +914,14 @@ function showMedia(item, p){
     return;
   }
   st.innerHTML = item.type==='video'
-    ? `<video src="${item.src}" autoplay muted loop playsinline controls></video><span class="rec">REC — GAMEPLAY</span>`
+    ? `<video src="${item.src}" loop playsinline controls></video><span class="rec">REC — ${(p.videoLabel||'Gameplay').toUpperCase()}</span>`
     : `<img src="${item.src}" alt="${p.title} — screenshot">`;
+  const v = st.querySelector('video');
+  if(!v){ Sound.duck(false); return; }
+  const syncDuck = () => Sound.duck(!v.paused && !v.muted && v.volume > 0);
+  ['play','pause','volumechange','ended'].forEach(ev => v.addEventListener(ev, syncDuck));
+  v.muted = false; v.volume = 1;
+  v.play().catch(() => { v.muted = true; v.play().catch(()=>{}); });
 }
 function openBrief(i){
   const p = PROJECTS[i]; briefIdx = i;
@@ -894,6 +958,7 @@ function closeBrief(){
   briefOpen = false;
   $('brief').classList.remove('open'); $('brief').setAttribute('aria-hidden','true');
   const v = $('bStage').querySelector('video'); if(v){ v.pause(); v.removeAttribute('src'); v.load(); }
+  Sound.duck(false);
   Sound.blip(200,.2,.04,'sawtooth');
   lastInput = performance.now();
 }
@@ -909,15 +974,31 @@ const bootLines = [
   [1,  '> <span class="ok">ready.</span> press enter'],
 ];
 let bootShown = 0, bootPct = 0, bootReady = false;
+const BOOT_MIN_MS = 2400, bootStart = performance.now();
+const coreBrackets = [['.br.tl',-1,-1],['.br.tr',1,-1],['.br.bl',-1,1],['.br.br2',1,1]].map(([q,x,y]) => [document.querySelector(q),x,y]);
 function tickBoot(){
-  bootPct += ((loaded ? 1 : loadFrac*.96) - bootPct) * .06;
-  if(loaded && bootPct > .995) bootPct = 1;
+  // never faster than BOOT_MIN_MS, so the intro animation always gets to play out
+  const pace = Math.min(1, (performance.now() - bootStart) / BOOT_MIN_MS);
+  const goal = Math.min(loaded ? 1 : loadFrac*.96, pace);
+  bootPct += (goal - bootPct) * .08;
+  if(goal === 1 && bootPct > .995) bootPct = 1;
   $('bootPct').textContent = String(Math.round(bootPct*100)).padStart(3,'0');
   $('bootBar').style.width = (bootPct*100)+'%';
   while(bootShown < bootLines.length && bootPct >= bootLines[bootShown][0]){
     $('bootLog').insertAdjacentHTML('beforeend', `<div>${bootLines[bootShown][1]}</div>`); bootShown++;
   }
-  if(bootPct === 1 && !bootReady){ bootReady = true; $('bootActions').classList.add('show'); $('enterSound').focus({preventScroll:true}); }
+  // centre piece follows the load: ring fills, brackets close in, the monogram draws itself
+  const spread = (1 - bootPct) * 34;
+  $('coreRing').style.strokeDashoffset = 1 - bootPct;
+  $('logoN').style.strokeDashoffset = 1 - THREE.MathUtils.clamp((bootPct - .1) / .55, 0, 1);
+  $('logoO').style.strokeDashoffset = 1 - THREE.MathUtils.clamp((bootPct - .4) / .55, 0, 1);
+  coreBrackets.forEach(([el,sx,sy]) => el.style.transform = `translate(${sx*spread}px,${sy*spread}px)`);
+  if(bootPct === 1 && !bootReady){
+    bootReady = true;
+    $('boot').classList.add('ready');
+    $('bootStatus').textContent = 'System ready';
+    setTimeout(() => { $('bootActions').classList.add('show'); $('enterSound').focus({preventScroll:true}); }, 850);
+  }
 }
 setTimeout(() => { if(!loaded){ loaded = true; } }, 12000);   // never trap people on the boot screen
 
