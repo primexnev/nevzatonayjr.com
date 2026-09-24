@@ -51,6 +51,12 @@
   .hud-btn { font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); border:1px solid var(--line); padding:8px 12px; transition:color .25s,border-color .25s,background .25s; }
   .hud-btn b { font-weight:500; color:var(--fg); }
   .hud-btn:hover { color:var(--acc); border-color:var(--acc-dim); }
+  .hud-btn.restart { color:var(--bg); background:var(--acc); border-color:var(--acc); animation:pulse 2.4s ease-out infinite; }
+  .hud-btn.restart b { color:var(--bg); }
+  .hud-btn.restart:hover { color:var(--bg); box-shadow:0 10px 30px -10px var(--acc); }
+  .restart-ico { display:inline-block; margin-right:8px; font-size:13px; line-height:0; vertical-align:-1px; transition:transform .5s; }
+  .hud-btn.restart:hover .restart-ico { transform:rotate(-360deg); }
+  @keyframes pulse { 0% { box-shadow:0 0 0 0 rgba(198,255,61,.5); } 70%,100% { box-shadow:0 0 0 12px rgba(198,255,61,0); } }
   .hud-btn .eq { display:inline-flex; gap:2px; align-items:flex-end; height:9px; margin-right:6px; vertical-align:-1px; }
   .hud-btn .eq span { width:2px; background:var(--acc); animation:eq 1s ease-in-out infinite; }
   .hud-btn .eq span:nth-child(2){animation-delay:-.3s} .hud-btn .eq span:nth-child(3){animation-delay:-.6s}
@@ -270,6 +276,7 @@
     .lvl-num { font-size:20px; }
     .skills, .contacts { grid-template-columns:1fr; }
     .hud-btn .lbl-long { display:none; }
+    .hud-btn { min-height:40px; padding:10px 14px; }
   }
   @media (prefers-reduced-motion:reduce) {
     .grain { animation:none; }
@@ -816,16 +823,25 @@ function goTo(k){
 }
 function nudge(delta){ if(!started||briefOpen) return; targetD = clampD(targetD + delta); lastInput = performance.now(); }
 
+// the profile text only keeps the gesture when it can actually scroll that way; otherwise the run moves
+function innerScrolls(target, dy){
+  const el = target.closest && target.closest('.profile-info');
+  if(!el || el.scrollHeight <= el.clientHeight + 1) return false;
+  return dy < 0 ? el.scrollTop > 0 : el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+}
 addEventListener('wheel', e => {
-  if(briefOpen || e.target.closest('.profile-info')) return;
-  nudge((e.deltaMode===1 ? e.deltaY*16 : e.deltaY) * .028);
+  const dy = e.deltaMode===1 ? e.deltaY*16 : e.deltaY;
+  if(briefOpen || innerScrolls(e.target, dy)) return;
+  nudge(dy * .028);
 }, { passive:true });
 
 let touchY = null, touchMoved = 0;
 addEventListener('touchstart', e => { if(briefOpen) return; touchY = e.touches[0].clientY; touchMoved = 0; }, { passive:true });
 addEventListener('touchmove', e => {
-  if(briefOpen || touchY===null || e.target.closest('.profile-info')) return;
-  const y = e.touches[0].clientY; nudge((touchY - y) * .07); touchMoved += Math.abs(touchY-y); touchY = y;
+  if(briefOpen || touchY===null) return;
+  const y = e.touches[0].clientY, dy = touchY - y;
+  touchMoved += Math.abs(dy); touchY = y;
+  if(!innerScrolls(e.target, dy)) nudge(dy * .07);
 }, { passive:true });
 addEventListener('touchend', () => { touchY = null; });
 
@@ -863,7 +879,8 @@ canvas.addEventListener('pointerup', e => {
 
 $('startBtn').addEventListener('click', () => goTo(1));
 $('sEnter').addEventListener('click', () => { if(active>=1 && active<=N) openBrief(active-1); });
-$('profileBtn').addEventListener('click', () => goTo(stops.length-1));
+// top-right button: "Player Profile" during the run, "Back to start" once you reach the profile
+$('profileBtn').addEventListener('click', () => goTo(active === stops.length-1 ? 0 : stops.length-1));
 $('sndBtn').addEventListener('click', () => { Sound.init(); Sound.set(!Sound.on); });
 
 /* ═══════════════ RAYCAST ═══════════════ */
@@ -881,6 +898,9 @@ function setActive(k){
   if(k === active) return;
   active = k;
   ticks.forEach((t,j) => t.classList.toggle('active', j===k));
+  const atEnd = k === stops.length-1;
+  $('profileBtn').classList.toggle('restart', atEnd);
+  $('profileBtn').innerHTML = atEnd ? '<span class="restart-ico">↺</span><span class="lbl-long">Back to </span><b>Start</b>' : '<span class="lbl-long">Player </span><b>Profile</b>';
   els.lvlNum.innerHTML = `${k>N ? 'P1' : pad2(k)}<small> / ${pad2(N)}</small>`;
   scramble(els.lvlName, stopNames[k], 400);
   if(k>=1 && k<=N){
