@@ -164,6 +164,8 @@
   .brief-media { padding:calc(var(--pad) + 58px) var(--pad) var(--pad); display:flex; flex-direction:column; gap:12px; min-height:0; border-right:1px solid var(--line); }
   .brief-stage { position:relative; flex:1; min-height:0; background:#000; border:1px solid var(--line); overflow:hidden; }
   .brief-stage img, .brief-stage video { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#000; }
+  .brief-stage .hotspot { position:absolute; z-index:3; border-radius:10px; cursor:pointer; transition:box-shadow .25s; }
+  .brief-stage .hotspot:hover, .brief-stage .hotspot:focus-visible { box-shadow:0 0 0 2px var(--acc), 0 0 24px -4px var(--acc); outline:none; }
   .brief-stage::before, .brief-stage::after { content:''; position:absolute; width:14px; height:14px; z-index:2; border:0 solid var(--acc); pointer-events:none; }
   .brief-stage::before { top:8px; left:8px; border-top-width:1px; border-left-width:1px; }
   .brief-stage::after { bottom:8px; right:8px; border-bottom-width:1px; border-right-width:1px; }
@@ -419,6 +421,13 @@ import * as THREE from 'three';
 
 /* ═══════════════ DATA ═══════════════ */
 const PROJECTS = [
+  { title:'Ninja Squad', year:'2026', type:'3D Extraction Shooter',
+    img:'NinjaSquad/cover.jpg', imgLink:{ href:'https://play.ninjasquad.io', label:'Play Ninja Squad', area:[.055,.695,.175,.095] },
+    shots:['NinjaSquad/lobby.webp','NinjaSquad/inventory.webp','NinjaSquad/trader.webp','NinjaSquad/crafter.webp','NinjaSquad/market.webp','NinjaSquad/skills.webp'],
+    tags:['TypeScript','Three.js','Node.js','WebSocket','Postgres','Multiplayer'],
+    text:'<p>A multiplayer, third-person <strong>3D extraction shooter</strong> that runs right in the browser, with nothing to install (formerly <em>Ninja Raiders</em>). Players pick a kit and drop onto the map with <strong>12 minutes</strong> to gather loot while fighting or avoiding machines and other players. Reach an open exit and everything you carry goes into your stash. Die, and you lose it. The game is live in open beta, reaches about <strong>300 players a day</strong> and ships new features, balance changes and fixes regularly.</p><p><strong>Features</strong> Solo and duo raids with only real players, 16 weapons in four rarity tiers with wear, repair, scopes and muzzles, persistent progression (stash, levels, skill tree, seasonal ranks, leaderboards), a workshop with Gunsmith, Trader, DEX and Cold Wallet stations, clans with chat and monthly ratings, and touch controls for mobile.</p><p><strong>Tech</strong> ~130k lines of TypeScript shared by client, server and game rules. Three.js + Vite on the client; an <strong>authoritative Node.js/WebSocket server</strong> computes damage, hits and loot to make cheating much harder, with one lobby process and one game process per CPU core. Postgres for accounts and progression, Vitest and headless match simulation for testing, a Solana escrow program in Rust, and continuous deployment from the live branch.</p><p><strong>My contribution</strong> I’m a developer on the team at ninjasquad.io with <strong>80+ commits</strong>, mostly on the economy and UI: inventory and stash (drag and drop, separate Scope and Muzzle slots per gun, splitting and dropping stacks), the Trader screen (bulk buying, stash upgrades), lobby and kit selection UI, the clan system (join requests, clan chat, clan cards and ratings) and quick-use buttons for mobile. I ship features to production myself and I’m still building new ones.</p>',
+    meta:[['Role','Developer (80+ commits)'],['Focus','Economy & UI'],['Stack','TypeScript · Three.js · Node.js'],['Type','Multiplayer Shooter'],['Players','~300 / day'],['Status','Live — open beta']],
+    links:[['Play now','https://play.ninjasquad.io'],['ninjasquad.io','https://ninjasquad.io']] },
   { title:'Projection Mapping', year:'2026', type:'Projection Mapping',
     img:'ProjectionMapping/cover.jpg', video:'ProjectionMapping/LabArt_Final_Video.mp4', videoCropX:.071, videoLabel:'Animation',
     shots:['ProjectionMapping/wireframe.jpg','ProjectionMapping/character.jpg','ProjectionMapping/vr.jpg'],
@@ -920,9 +929,24 @@ function setActive(k){
 function mediaList(p){
   const m = [];
   if(p.video && !p.locked) m.push({ type:'video', src:p.video, thumb:p.img });
-  if(p.img) m.push({ type:'img', src:p.img });
+  if(p.img) m.push({ type:'img', src:p.img, link:p.imgLink });
   (p.shots||[]).forEach(s => m.push({ type:'img', src:s }));
   return m;
+}
+/* clickable area on an image (fractions of the image), kept on the contained image as the stage resizes */
+function addHotspot(st, link){
+  const img = st.querySelector('img'), a = document.createElement('a');
+  a.className = 'hotspot'; a.href = link.href; a.target = '_blank'; a.rel = 'noopener'; a.setAttribute('aria-label', link.label);
+  st.appendChild(a);
+  const place = () => {
+    if(!a.isConnected) return removeEventListener('resize', place);
+    const W = st.clientWidth, H = st.clientHeight, iw = img.naturalWidth, ih = img.naturalHeight;
+    if(!iw) return;
+    const k = Math.min(W/iw, H/ih), ox = (W - iw*k)/2, oy = (H - ih*k)/2, [x,y,w,h] = link.area;
+    Object.assign(a.style, { left:ox + x*iw*k + 'px', top:oy + y*ih*k + 'px', width:w*iw*k + 'px', height:h*ih*k + 'px' });
+  };
+  img.complete ? place() : img.addEventListener('load', place);
+  addEventListener('resize', place);
 }
 function showMedia(item, p){
   const st = $('bStage'); const old = st.querySelector('video'); if(old){ old.pause(); old.removeAttribute('src'); old.load(); }
@@ -936,6 +960,7 @@ function showMedia(item, p){
   st.innerHTML = item.type==='video'
     ? `<video src="${item.src}" loop playsinline controls></video><span class="rec">REC — ${(p.videoLabel||'Gameplay').toUpperCase()}</span>`
     : `<img src="${item.src}" alt="${p.title} — screenshot">`;
+  if(item.link) addHotspot(st, item.link);
   const v = st.querySelector('video');
   if(!v){ Sound.duck(false); return; }
   const syncDuck = () => Sound.duck(!v.paused && !v.muted && v.volume > 0);
